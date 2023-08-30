@@ -1,41 +1,63 @@
-// Create a function which uses tuple type to calculate the distance between two points in 2D space
-function excercise4() {
+// 4. Create a function which uses tuple type to calculate the distance between two points in 2D space
+const exercise4 = () => {
   // TODO: declare two variables of type tuple, each with two numbers
   // TODO: assign values to the variables (1,1) and (4,5)
   // TODO: create a function which calculates the distance between two points in 2D space
-  function distance(p1: [number, number], p2: [number, number]): number {
-    const x1 = 0; // TODO: replace with the first element of p1
-    const y1 = 0; // TODO: replace with the second element of p1
-    const x2 = 0; // TODO: replace with the first element of p2
-    const y2 = 0; // TODO: replace with the second element of p2
+  const p1: [number, number] = [1, 1]
+  const p2: [number, number] = [4, 5]
+
+  const distance = (p1: [number, number], p2: [number, number]): number => {
+    const x1 = p1[0] // TODO: replace with the first element of p1
+    const y1 = p1[1] // TODO: replace with the second element of p1
+    const x2 = p2[0] // TODO: replace with the first element of p2
+    const y2 = p2[1] // TODO: replace with the second element of p2
     // TODO: calculate the distance
-    return 0;
+
+    const result = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+    return result;
   }
   // TODO: call the function and print the result to console
+  console.log(distance(p1, p2))
 }
+exercise4()
 // TODO: compile and run the code
-excercise4();
 
-// Create a function which uses type alias to calculate the distance between two points in 2D space - points are objects with x and y properties
-function excercise5() {
+//Done -----------------------------------------------------------------------------------------------------
+
+// 5. Create a function which uses type alias to calculate the distance between two points in 2D space - points are objects with x and y properties
+const exercise5 = () => {
   // TODO: declare a type alias for a point in 2D space (TPoint) - object with x and y properties
   // TODO: declare two variables of type TPoint
   // TODO: assign values to the variables (1,1) and (4,5)
   // TODO: create a function which calculates the distance between two points in 2D space
-  type TPoint = { /* replace  with your code */ x: "" };
-  function distance(p1: TPoint, p2: TPoint): number {
-    const x1 = 0; // TODO: replace with the first element of p1
-    const y1 = 0; // TODO: replace with the second element of p1
-    const x2 = 0; // TODO: replace with the first element of p2
-    const y2 = 0; // TODO: replace with the second element of p2
-    // TODO: use distructuring to get x and y from p1 and p2
+  type TPoint = { x: number, y: number };
+
+  const p1 = {x: 1, y: 1}
+  const p2 = {x: 4, y: 5}
+
+  const distance = (p1: TPoint, p2: TPoint): number => {
+    // const x1 = p1.x // TODO: replace with the x-coordinate of p1
+    // const y1 = p1.y // TODO: replace with the y-coordinate  of p1
+    // const x2 = p2.x // TODO: replace with the x-coordinate  of p2
+    // const y2 = p2.y // TODO: replace with the y-coordinate  of p2
+    
+    // TODO: rewrite code to use distructuring to get x and y from p1 and p2
+    const { x: x1, y: y1 } = p1
+    const { x: x2, y: y2 } = p2
+
     // TODO: calculate the distance
-    return 0;
+    const result = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+    return result;
   }
   // TODO: call the function and print the result to console
+  console.log(distance(p1, p2))
 }
+exercise5()
 // TODO: compile and run the code
-excercise5();
+
+//Done -----------------------------------------------------------------------------------------------------
 
 // Create functions that use const declarations
 function excercise6() {
@@ -54,7 +76,7 @@ excercise6();
 // and returns a new array with the results of function called on each element of the array (function passed as a first parameter)
 function excercise7() {
   // TODO: add type annotations
-  function map(arr, fn) {
+  // function map(arr, fn) {
     // TODO: add logic here
     // TODO: use regular for loop
     return [];
@@ -63,7 +85,7 @@ function excercise7() {
   // TODO: create a function which doubles a number
   // TODO: call map function (created earlier) with the array and the function
   // TODO: print the result to console
-}
+// }
 // TODO: compile and run the code
 excercise7();
 

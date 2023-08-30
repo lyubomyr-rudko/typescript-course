@@ -23,6 +23,12 @@ function excercise2() {
   // assign number var value 3
   // create a while loop which prints string variable to console 3 times
   // try to assign number variable to string variable - observe the error
+  let greetingText:string = 'Hello';
+  let numberOfIteration:number = 3;
+  while (numberOfIteration > 0) {
+    console.log(greetingText);
+    numberOfIteration -= 1;
+  }
 }
 excercise2();
 
@@ -33,6 +39,19 @@ function excercise3() {
   // TODO: assign n and m some values - n = 1, m = 10
   // TODO: create a for loop which adds numbers from n to m to result array
   // TODO: support case where m > n (reverse the order)
+  let n:number = 1;
+  let m:number = 10;
+  let arrayOfNumbers: number[] = [];
+  if (m >= n) {
+    for (; n <= m; n += 1) {
+      arrayOfNumbers.push(n);
+    }
+  }
+  else {
+    for (; m <= n; n -= 1) {
+      arrayOfNumbers.push(n);
+    }
+  }
 }
 excercise3();
 // TODO: compile and run the code

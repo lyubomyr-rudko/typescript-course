@@ -18,21 +18,32 @@ excercise1();
 
 // 2. loop which prints string to console n times
 function excercise2() {
-  // declare two varaibles - one of string, one of type number
-  // assign string var value 'Hello'
-  // assign number var value 3
-  // create a while loop which prints string variable to console 3 times
-  // try to assign number variable to string variable - observe the error
+  var text: string = 'hello';
+  var count: number = 3;
+  let i = 0;
+  while (i < count) {
+    console.log(text);
+    i++;
+  }
 }
 excercise2();
 
 // 3. code that generates array of numbers - from n to m
 function excercise3() {
-  // TODO: declare varaibles n and m of type number
-  // TODO: declare varaible result of type array of numbers
-  // TODO: assign n and m some values - n = 1, m = 10
-  // TODO: create a for loop which adds numbers from n to m to result array
-  // TODO: support case where m > n (reverse the order)
+  var n: number = 1;
+  var m: number = 10;
+  var result: number[] = [];
+  if (m > n) {
+    for (let i = n; i <= m; i++) {
+      result.push(i)
+    }
+  } else {
+    for (let i = n; i >= m; i--) {
+      result.push(i)
+    }
+  }
+
+  console.log(result);
 }
 excercise3();
 // TODO: compile and run the code

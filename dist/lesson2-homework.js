@@ -47,11 +47,11 @@ excercise6();
 // and returns a new array with the results of function called on each element of the array (function passed as a first parameter)
 function excercise7() {
     // TODO: add type annotations
-    function map(arr, fn) {
-        // TODO: add logic here
-        // TODO: use regular for loop
-        return [];
-    }
+    // function map(arr, fn) {
+    //   // TODO: add logic here
+    //   // TODO: use regular for loop
+    //   return [];
+    // }
     // TODO: create an array of numbers
     // TODO: create a function which doubles a number
     // TODO: call map function (created earlier) with the array and the function

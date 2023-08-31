@@ -9,7 +9,7 @@
 // TODO: create src/index.ts with this code
 function excercise1() {
   let greeting: string;
-  greeting = "Hello World";
+  greeting = 'Hello World';
   console.log(greeting);
 }
 excercise1();
@@ -23,6 +23,14 @@ function excercise2() {
   // assign number var value 3
   // create a while loop which prints string variable to console 3 times
   // try to assign number variable to string variable - observe the error
+
+  let a: string = 'Hello';
+  let b: number = 3;
+  let i: number = 0;
+  while (i < b) {
+    console.log(a);
+    i++;
+  }
 }
 excercise2();
 
@@ -33,6 +41,53 @@ function excercise3() {
   // TODO: assign n and m some values - n = 1, m = 10
   // TODO: create a for loop which adds numbers from n to m to result array
   // TODO: support case where m > n (reverse the order)
+
+  let n: number = 1;
+  let m: number = 10;
+  let result: number[] = [];
+  for (let i = n; i <= m; i++) {
+    result.push(i);
+  }
+  console.log(result);
+  let reversedResult: number[] = result.reverse();
+  console.log(reversedResult);
+  // other solution
+  let secondReversedResult: number[] = [];
+  for (let i = m; i >= n; i--) {
+    secondReversedResult.push(i);
+  }
+  console.log(secondReversedResult);
 }
 excercise3();
 // TODO: compile and run the code
+
+function exercise4() {
+  let x: [number, number] = [1, 1];
+  let y: [number, number] = [4, 5];
+  function calculateDistance(p1: [number, number], p2: [number, number]) {
+    const x1 = p1[0];
+    const y1 = p1[1];
+    const x2 = p2[0];
+    const y2 = p2[1];
+    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    return distance;
+  }
+  console.log(calculateDistance(x, y));
+}
+exercise4();
+
+function exercise5() {
+  type TPoint = number[];
+  const x: TPoint = [1, 1];
+  const y: TPoint = [4, 5];
+  function calculateDistance(p1: TPoint, p2: TPoint) {
+    const x1 = p1[0];
+    const y1 = p1[1];
+    const x2 = p2[0];
+    const y2 = p2[1];
+    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    return distance;
+  }
+  console.log(calculateDistance(x, y));
+}
+exercise5();

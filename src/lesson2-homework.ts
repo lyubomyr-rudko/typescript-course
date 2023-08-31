@@ -241,15 +241,12 @@ function excercise10() {
     // TODO: call the method `getArea` and print the result to console
     // TODO: call the method `getPerimeter` and print the result to console
     // TODO: compile and run the code
-
     // TODO: change compiler target to ES5, complile and see the compiled code
     // TODO: change width and height properties to private, recomplile and
     // TODO: change compiler target to ES2015, complile and see the compiled code
-    // TODO: change width and height properties to be prefixed with #, to use ESNext private fields support
-    // TODO: change compiler target to ESNext, complile and see the compiled code
-    // TODO: change compiler target to ES5, try to compile, check if you get the error Private identifiers are only available when targeting ECMAScript 2015 and higher.(18028)
+
     class Rectangle {
-        constructor(public width: number, public height: number) {}
+        constructor(private width: number, private height: number) {}
 
         getArea(): number {
             return this.width * this.height;
@@ -263,6 +260,31 @@ function excercise10() {
     const rectangle = new Rectangle(10, 20);
     console.log(rectangle.getArea());
     console.log(rectangle.getPerimeter());
+
+    // TODO: change width and height properties to be prefixed with #, to use ESNext private fields support
+    // TODO: change compiler target to ESNext, complile and see the compiled code
+    // TODO: change compiler target to ES5, try to compile, check if you get the error Private identifiers are only available when targeting ECMAScript 2015 and higher.(18028)
+    class Rectangle2 {
+        #width: number;
+        #height: number;
+
+        constructor(width: number, height: number) {
+            this.#width = width;
+            this.#height = height;
+        }
+
+        getArea(): number {
+            return this.#width * this.#height;
+        }
+
+        getPerimeter(): number {
+            return this.#width + this.#height;
+        }
+    }
+
+    const rectangle2 = new Rectangle(10, 20);
+    console.log(rectangle2.getArea());
+    console.log(rectangle2.getPerimeter());
 }
 // TODO: compile and run the code
 excercise10();

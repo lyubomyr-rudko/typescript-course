@@ -23,94 +23,16 @@ function excercise2() {
     // assign number var value 3
     // create a while loop which prints string variable to console 3 times
     // try to assign number variable to string variable - observe the error
-    let greetingText: string = 'Hello';
-    let loopCount: number = 3;
-
-    let i: number = 0;
-    while (i < loopCount) {
-        i++;
-        console.log(greetingText);
-    }
 }
 excercise2();
 
 // 3. code that generates array of numbers - from n to m
-function excercise3(n: number, m: number): void {
+function excercise3() {
     // TODO: declare varaibles n and m of type number
     // TODO: declare varaible result of type array of numbers
-
     // TODO: assign n and m some values - n = 1, m = 10
     // TODO: create a for loop which adds numbers from n to m to result array
     // TODO: support case where m > n (reverse the order)
-
-    let result: number[] = [];
-    if (n < m) {
-        for (let i: number = n; i <= m; i += 1) {
-            result.push(i);
-        }
-    } else {
-        for (let i: number = n; i >= m; i -= 1) {
-            result.push(i);
-        }
-    }
-
-    console.log(result);
 }
-excercise3(1, 10);
-excercise3(10, 1);
+excercise3();
 // TODO: compile and run the code
-
-// 4. Create a function which uses tuple type to calculate the distance between two points in 2D space
-function excercise4() {
-    // TODO: declare two variables of type tuple, each with two numbers
-    // TODO: assign values to the variables (1,1) and (4,5)
-    // TODO: create a function which calculates the distance between two points in 2D space
-    let coordinates1: [number, number];
-    let coordinates2: [number, number];
-
-    coordinates1 = [1, 1];
-    coordinates2 = [4, 5];
-
-    function distance(p1: [number, number], p2: [number, number]): number {
-        const x1 = p1[0]; // TODO: replace with the first element of p1
-        const y1 = p1[1]; // TODO: replace with the second element of p1
-        const x2 = p2[0]; // TODO: replace with the first element of p2
-        const y2 = p2[1]; // TODO: replace with the second element of p2
-        // TODO: calculate the distance
-
-        return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
-    }
-    // TODO: call the function and print the result to console
-    console.log(distance(coordinates1, coordinates2));
-}
-// TODO: compile and run the code
-excercise4();
-
-// 5. Create a function which uses type alias to calculate the distance between two points in 2D space - points are objects with x and y properties
-function excercise5() {
-    // TODO: declare a type alias for a point in 2D space (TPoint) - object with x and y properties
-    // TODO: declare two variables of type TPoint
-    // TODO: assign values to the variables (1,1) and (4,5)
-    // TODO: create a function which calculates the distance between two points in 2D space
-
-    type TPoint = { x: number; y: number };
-
-    const coordinates1: TPoint = { x: 1, y: 1 };
-    const coordinates2: TPoint = { x: 4, y: 5 };
-
-    function distance(p1: TPoint, p2: TPoint): number {
-        const x1 = p1.x; // TODO: replace with the x-coordinate of p1
-        const y1 = p1.y; // TODO: replace with the y-coordinate  of p1
-        const x2 = p2.x; // TODO: replace with the x-coordinate  of p2
-        const y2 = p2.y; // TODO: replace with the y-coordinate  of p2
-        // TODO: calculate the distance
-        // TODO: rewrite code to use distructuring to get x and y from p1 and p2
-
-        return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
-    }
-    // TODO: call the function and print the result to console
-    console.log(distance(coordinates1, coordinates2));
-}
-// TODO: compile and run the code
-
-excercise5();

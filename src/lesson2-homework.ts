@@ -1,84 +1,114 @@
 // Create a function which uses tuple type to calculate the distance between two points in 2D space
 function excercise4() {
-  // TODO: declare two variables of type tuple, each with two numbers
-  // TODO: assign values to the variables (1,1) and (4,5)
-  // TODO: create a function which calculates the distance between two points in 2D space
+  const tuple1: [number, number] = [1, 1];
+  const tuple2: [number, number] = [4, 5];
+
   function distance(p1: [number, number], p2: [number, number]): number {
-    const x1 = 0; // TODO: replace with the first element of p1
-    const y1 = 0; // TODO: replace with the second element of p1
-    const x2 = 0; // TODO: replace with the first element of p2
-    const y2 = 0; // TODO: replace with the second element of p2
-    // TODO: calculate the distance
-    return 0;
+   const x1 = p1[0]; // Replace with the first element of p1
+    const y1 = p1[1]; // Replace with the second element of p1
+    const x2 = p2[0]; // Replace with the first element of p2
+    const y2 = p2[1]; // Replace with the second element of p2
+
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    return distance;
   }
-  // TODO: call the function and print the result to console
+  const result = distance(tuple1, tuple2);
+  console.log(`The distance between (${tuple1[0]}, ${tuple1[1]}) and (${tuple2[0]}, ${tuple2[1]}) is ${result}`);
 }
-// TODO: compile and run the code
+
 excercise4();
 
-// Create a function which uses type alias to calculate the distance between two points in 2D space - points are objects with x and y properties
 function excercise5() {
-  // TODO: declare a type alias for a point in 2D space (TPoint) - object with x and y properties
-  // TODO: declare two variables of type TPoint
-  // TODO: assign values to the variables (1,1) and (4,5)
-  // TODO: create a function which calculates the distance between two points in 2D space
-  type TPoint = { /* replace  with your code */ x: "" };
+  type TPoint = { x: number, y: number };
+  
+  let point1: TPoint = { x: 1, y: 1 };
+  let point2: TPoint = { x: 4, y: 5 };
+ 
   function distance(p1: TPoint, p2: TPoint): number {
-    const x1 = 0; // TODO: replace with the first element of p1
-    const y1 = 0; // TODO: replace with the second element of p1
-    const x2 = 0; // TODO: replace with the first element of p2
-    const y2 = 0; // TODO: replace with the second element of p2
-    // TODO: use distructuring to get x and y from p1 and p2
-    // TODO: calculate the distance
-    return 0;
+    const { x: x1, y: y1 } = p1;
+    const { x: x2, y: y2 } = p2;
+    
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    return distance;
   }
-  // TODO: call the function and print the result to console
+  const result = distance(point1, point2);
+  console.log(`The distance between (${point1.x}, ${point1.y}) and (${point2.x}, ${point2.y}) is ${result}`);
 }
-// TODO: compile and run the code
 excercise5();
 
 // Create functions that use const declarations
 function excercise6() {
-  // TODO: declare a const PI and assign value 3.14
-  // TODO: declare a function which calculates a circle area, takes radius as a parameter
-  // TODO: call the function and print the result to console
-  // TODO: check the type of PI variable
-  // TODO: declare a const variable that is an object with two properties - name and age
-  // TODO: declare a function which takes a person object as a parameter and increments age by 1
-  // TODO: call the function and print the person object to console
+  const PI:number = 3.14;
+
+  function calculateCircleArea(radius: number): number {
+    const area = PI * radius * radius;
+
+    return area;
+  }
+
+  const radius = 5;
+  const circleArea = calculateCircleArea(radius);
+  console.log(`The area of a circle with radius ${radius} is ${circleArea}`);
+
+  console.log(`The type of PI is: ${typeof PI}`);
+
+  const person: { name: string, age: number } = {
+    name: "John",
+    age: 30
+  };
+
+  function incrementAge(p: { name: string, age: number }): void {
+    p.age++;
+  }
+
+  incrementAge(person);
+  console.log(`After incrementing age, ${person.name} is now ${person.age} years old.`);
 }
 excercise6();
 
-// Create a function that takes as a first parameter an array of numbers
-// a second parameter - a function that takes a number and returns a number.
-// and returns a new array with the results of function called on each element of the array (function passed as a first parameter)
 function excercise7() {
-  // TODO: add type annotations
-  function map(arr, fn) {
-    // TODO: add logic here
-    // TODO: use regular for loop
-    return [];
+  function map(arr: number[], fn: (num: number) => number): number[] {
+    const result: number[] = [];
+      for (let i = 0; i < arr.length; i++) {
+        result.push(fn(arr[i]));
+      }
+    return result;
   }
-  // TODO: create an array of numbers
-  // TODO: create a function which doubles a number
-  // TODO: call map function (created earlier) with the array and the function
-  // TODO: print the result to console
+  
+  const arr: number[] = [1, 2, 3];
+
+  function doubleFn(num: number): number {
+    const doubleNumber = num * 2;
+    return doubleNumber;
+  }
+
+  const doubledArray: number[] = map(arr, doubleFn);
+  console.log(doubledArray);
 }
-// TODO: compile and run the code
 excercise7();
 
-// declare a function which takes a user and prits greeting to console
 function excercise8() {
-  // TODO: create a type for user, with name property
-  // TODO: create a function with name printGreeting, which takes a user and prits greeting to console
-  // TODO: create a type for product, with name property and price property
-  // TODO: create a product object, asign it some object literal
-  // TODO: call the function with product as a parameter
-  // TODO: call the function with object literal as a parameter
-  // TODO: try adding extra property to the object literal - observe the error
-  // TODO: fix the error with type assertion
+  type User = { name: string };
+  function printGreeting(user: User):void {
+    console.log(`Hello, ${user.name}`)
+  }
+
+  const userJohn: User = { name: 'John' };
+  printGreeting(userJohn)
+
+  type Product = { name: string; price: number };
+  const product: Product = {name: "Orange", price: 50}
+
+  printGreeting(product);
+  // printGreeting({ name: "Apple", price: 29.99 });
+  printGreeting({ name: "Apple" } as User);
 }
-// TODO: compile and run the code
 excercise8();
 
 // declare a `Book` class with a constructor and a method

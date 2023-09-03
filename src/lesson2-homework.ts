@@ -154,28 +154,22 @@ exercise7()
 // TODO: compile and run the code
 
 const exercise8 = () => {
-  type TUser = {
-    name: string,
-    age: number, // new literal
-  }
+  type TUser = { name: string }
 
   const printGreeting = (user: TUser): void => console.log(`Hello ${user.name}`)
 
   type TProduct = {
     name: string,
     price: number,
-    age: number, // new literal
   }
   
   const product: TProduct = {
-    name: "Hamster",
-    price: 30,
-    age: 2, // new property
+    name: "Guitar",
+    price: 1499.98,
   }
 
   printGreeting(product)
-  printGreeting({ name: "Frank", age: 24 }) // adding extra property
-  
+  printGreeting({ name: "Frank", age: 30 } as TUser)
 }
 exercise8()
 

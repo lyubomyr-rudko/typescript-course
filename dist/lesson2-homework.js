@@ -128,12 +128,11 @@ exercise7();
 const exercise8 = () => {
     const printGreeting = (user) => console.log(`Hello ${user.name}`);
     const product = {
-        name: "Hamster",
-        price: 30,
-        age: 2, // new property
+        name: "Guitar",
+        price: 1499.98,
     };
     printGreeting(product);
-    printGreeting({ name: "Frank", age: 24 }); // adding extra property
+    printGreeting({ name: "Frank", age: 30 });
 };
 exercise8();
 //Done -----------------------------------------------------------------------------------------------------

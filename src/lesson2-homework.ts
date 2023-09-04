@@ -1,51 +1,63 @@
-// Create a function which uses tuple type to calculate the distance between two points in 2D space
-function excercise4() {
-  // TODO: declare two variables of type tuple, each with two numbers
-  // TODO: assign values to the variables (1,1) and (4,5)
-  // TODO: create a function which calculates the distance between two points in 2D space
-  function distance(p1: [number, number], p2: [number, number]): number {
-    const x1 = 0; // TODO: replace with the first element of p1
-    const y1 = 0; // TODO: replace with the second element of p1
-    const x2 = 0; // TODO: replace with the first element of p2
-    const y2 = 0; // TODO: replace with the second element of p2
-    // TODO: calculate the distance
-    return 0;
+function excercise4(): void {
+  let x: [number, number] = [1, 1];
+  let y: [number, number] = [4, 5];
+  function calculateDistance(
+    p1: [number, number],
+    p2: [number, number]
+  ): number {
+    const x1 = p1[0];
+    const y1 = p1[1];
+    const x2 = p2[0];
+    const y2 = p2[1];
+    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    return distance;
   }
-  // TODO: call the function and print the result to console
+  console.log(calculateDistance(x, y));
 }
-// TODO: compile and run the code
+
 excercise4();
 
-// Create a function which uses type alias to calculate the distance between two points in 2D space - points are objects with x and y properties
-function excercise5() {
-  // TODO: declare a type alias for a point in 2D space (TPoint) - object with x and y properties
-  // TODO: declare two variables of type TPoint
-  // TODO: assign values to the variables (1,1) and (4,5)
-  // TODO: create a function which calculates the distance between two points in 2D space
-  type TPoint = { /* replace  with your code */ x: "" };
-  function distance(p1: TPoint, p2: TPoint): number {
-    const x1 = 0; // TODO: replace with the first element of p1
-    const y1 = 0; // TODO: replace with the second element of p1
-    const x2 = 0; // TODO: replace with the first element of p2
-    const y2 = 0; // TODO: replace with the second element of p2
-    // TODO: use distructuring to get x and y from p1 and p2
-    // TODO: calculate the distance
-    return 0;
+function excercise5(): void {
+  type TPoint = {
+    x: number;
+    y: number;
+  };
+  const coordinate1: TPoint = { x: 1, y: 1 };
+  const coordinate2: TPoint = { x: 4, y: 5 };
+  function calculateDistance(p1: TPoint, p2: TPoint): number {
+    const x1 = p1.x;
+    const y1 = p1.y;
+    const x2 = p2.x;
+    const y2 = p2.y;
+    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    return distance;
   }
-  // TODO: call the function and print the result to console
+  console.log(calculateDistance(coordinate1, coordinate2));
 }
-// TODO: compile and run the code
 excercise5();
 
 // Create functions that use const declarations
-function excercise6() {
-  // TODO: declare a const PI and assign value 3.14
-  // TODO: declare a function which calculates a circle area, takes radius as a parameter
-  // TODO: call the function and print the result to console
-  // TODO: check the type of PI variable
-  // TODO: declare a const variable that is an object with two properties - name and age
-  // TODO: declare a function which takes a person object as a parameter and increments age by 1
-  // TODO: call the function and print the person object to console
+function excercise6(): void {
+  const PI = 3.14;
+  const calculateCircleArea = (radius: number): number => {
+    return PI * Math.pow(radius, 2);
+  };
+  console.log(typeof PI);
+  console.log(calculateCircleArea(10));
+
+  type Tperson = {
+    name: string;
+    age: number;
+  };
+  const person: Tperson = {
+    name: 'Serhii',
+    age: 32,
+  };
+  const incrementAge = (obj: Tperson): number => {
+    return ++obj.age;
+  };
+  console.log(incrementAge(person));
+  console.log(person);
 }
 excercise6();
 
@@ -54,58 +66,101 @@ excercise6();
 // and returns a new array with the results of function called on each element of the array (function passed as a first parameter)
 function excercise7() {
   // TODO: add type annotations
-  function map(arr, fn) {
-    // TODO: add logic here
-    // TODO: use regular for loop
-    return [];
+  type Tfn = (a: number) => number;
+  function map(arr: number[], fn: Tfn) {
+    const result: number[] = [];
+    for (let i = 0; i < arr.length; i++) {
+      result.push(fn(arr[i]));
+    }
+    return result;
   }
-  // TODO: create an array of numbers
-  // TODO: create a function which doubles a number
-  // TODO: call map function (created earlier) with the array and the function
-  // TODO: print the result to console
+
+  const arrOfNumbers = [10, 13, 8, 3, 11];
+  const doubleNumber = (num: number): number => {
+    return num * 2;
+  };
+  console.log(map(arrOfNumbers, doubleNumber));
 }
-// TODO: compile and run the code
+
 excercise7();
 
 // declare a function which takes a user and prits greeting to console
 function excercise8() {
-  // TODO: create a type for user, with name property
-  // TODO: create a function with name printGreeting, which takes a user and prits greeting to console
-  // TODO: create a type for product, with name property and price property
-  // TODO: create a product object, asign it some object literal
-  // TODO: call the function with product as a parameter
-  // TODO: call the function with object literal as a parameter
-  // TODO: try adding extra property to the object literal - observe the error
-  // TODO: fix the error with type assertion
+  type Tuser = { name: string };
+  const printGreeting = (user: Tuser): string => user.name;
+  type Tproduct = { name: string; price: number };
+  let product: Tproduct = {
+    name: 'Bread',
+    price: 11,
+  };
+  console.log(printGreeting(product));
+  console.log(printGreeting({ name: 'Bread', price: 11 }));
+  product.color = 'white';
+  type Product = {
+    name: string;
+    price: number;
+    color: string;
+  };
+  const product2: Product = {
+    name: 'Bread',
+    price: 11,
+    color: 'white',
+  };
+  product = product2;
+  console.log(product);
 }
-// TODO: compile and run the code
 excercise8();
 
 // declare a `Book` class with a constructor and a method
 function excercise9() {
-  // TODO: declare a `Book` class with a constructor and a method `getInfo` which returns the book info as a string
-  // TODO: constructor should take three parameters - title and year of publication
-  // TODO: method `getInfo` should return the book title and year as a string
-  // TODO: create a book object and call the method `getInfo`, print the result to console
-  // TODO: assign a new value to the year property
-  // TODO: call the method `getInfo` again
-  // TODO: add a new method `getAge` which returns the age of the book (current year - year of publication)
-  // TODO: call the method `getAge` and print the result to console
-  // TODO: add a new method `revise` which takes a new year as a parameter and updates the year property, add validation to the method - year can not be in the future, year can not be less than prev year
-  // TODO: call the method `revise` and pass a new year as a parameter
-  // TODO: add private modifier to the year property
-  // TODO: try to access the year property from outside of the class - observe the error
-  // TODO: change protected modifier to the year property, remove private modifier
-  // TODO: create a subclass `Magazine` which extends `Book` class
-  // TODO: add a new properties `month` and `day` to the `Magazine` class
-  // TODO: add constructor override to the Magazine class which takes four parameters - title, year, month and day
-  // TODO: use super keyword to call the `Book` class constructor with title and year parameters
-  // TODO: add a method override `getInfo` to the `Magazine` class which prints the magazine info to console
-  // TODO: use super keyword to call the `getInfo` method of the `Book` class
-  // TODO: create a magazine object and call the method `getInfo`, print the result to console
-  // TODO: call the inherited method `getAge` of the magazine object and print the result to console
+  class Book {
+    title: string;
+    year: number;
+    constructor(title: string, year: number) {
+      this.title = title;
+      this.year = year;
+    }
+    getInfo(): string {
+      return `${this.title} is published in ${this.year}`;
+    }
+    getAge() {
+      return new Date().getFullYear() - this.year;
+    }
+    revise(year: number) {
+      if (
+        year > new Date().getFullYear() ||
+        year < new Date().getFullYear() - 1
+      ) {
+        return 'Wrong year';
+      }
+      return (this.year = year);
+    }
+    protected setYear(year: number): number {
+      return (this.year = year);
+    }
+  }
+  let myBook = new Book('Sherlock Holmes', 1900);
+  console.log(myBook.getInfo());
+  myBook.year = 1800;
+  console.log(myBook.getInfo());
+  console.log(myBook.getAge());
+  console.log(myBook.revise(2022));
+
+  class Magazine extends Book {
+    month: string;
+    day: number;
+    constructor(title: string, year: number, month: string, day: number) {
+      super(title, year);
+      this.month = month;
+      this.day = day;
+    }
+    getInfo(): string {
+      return `${super.getInfo()} ${this.month} ${this.day}`;
+    }
+  }
+  const myMagazine = new Magazine('Playboy', 1950, 'June', 10);
+  console.log(myMagazine.getAge());
 }
-// TODO: compile and run the code
 excercise9();
 
 // try different target compiler options

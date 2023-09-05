@@ -73,6 +73,8 @@ function excercise8() {
 excercise8();
 function excercise9() {
     class Book {
+        title;
+        year;
         constructor(title, year) {
             this.title = title;
             this.year = year;
@@ -104,6 +106,8 @@ function excercise9() {
     paper.revise(1999);
     paper.revise(2013);
     class Magazine extends Book {
+        month;
+        day;
         constructor(title, year, month, day) {
             super(title, year);
             this.month = month;

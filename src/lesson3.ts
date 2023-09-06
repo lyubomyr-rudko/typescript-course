@@ -163,7 +163,7 @@ function lesson3() {
     let x3 = +x1;
   }
 
-  console.log(process.env.NODE_ENV);
+  // console.log(process.env.NODE_ENV);
   // const x2 = <number>getSomething();
 
   // Type Declarations, d.ts files

@@ -132,12 +132,7 @@ function lesson3() {
 
   const user2 = fetchUser(); // as { name: string; age: number }
 
-  if (
-    typeof user2 === "object" &&
-    user2 !== null &&
-    "name" in user2 &&
-    "age" in user2
-  ) {
+  if (typeof user2 === "object" && user2 !== null && "name" in user2 && "age" in user2) {
     console.log(user2.name);
     console.log(user2.age);
   }

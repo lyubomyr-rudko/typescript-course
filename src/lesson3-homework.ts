@@ -141,15 +141,17 @@ excercise13();
 // run the code before and after adding type casting to see the difference
 function excercise14() {
   function fetchUserAge() {
-    const responseText = '{"name": "John", "age": "9"}';
 
+    const responseText = '{"name": "John", "age": "9"}';
     return JSON.parse(responseText).age;
   }
-  const userAge = fetchUserAge() as number; //------------!!!the code works as intended with or without type casting
+  const userAge = fetchUserAge() as number;
   console.log(typeof userAge)
   // TODO: run the code below and observe the result, explain why it is happening,
-  // TODO: add type casting to the function above, to fix the error, ----------- i didn't get any errors with or without my change
-  if (userAge > 16) {
+  // TODO: add type casting to the function above, to fix the error
+  if (userAge === 16) {
+    console.log("Time to get your driver license");
+  } else if (userAge > 16) {
     console.log("You are old enough to drive");
   } else {
     console.log("You are not old enough to drive");

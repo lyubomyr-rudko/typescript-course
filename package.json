@@ -1,19 +1,4 @@
 {
-<<<<<<< HEAD
-    "name": "typescript-course",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "watch": "npx tsc --watch"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "typescript": "^5.2.2"
-    }
-=======
   "name": "typescript-course",
   "version": "1.0.0",
   "description": "",
@@ -25,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@types/node": "^20.5.9"
   }
->>>>>>> upstream/main
 }

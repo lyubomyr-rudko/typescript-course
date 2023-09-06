@@ -1,3 +1,3 @@
 declare const _: {
-  cloneDeep: (arg: any) => any;
+    cloneDeep: (arg: any) => any;
 };

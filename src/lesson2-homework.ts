@@ -25,10 +25,10 @@ function excercise5(): void {
   const coordinate1: TPoint = { x: 1, y: 1 };
   const coordinate2: TPoint = { x: 4, y: 5 };
   function calculateDistance(p1: TPoint, p2: TPoint): number {
-    const x1 = p1.x;
-    const y1 = p1.y;
-    const x2 = p2.x;
-    const y2 = p2.y;
+    const { x: x1 } = p1;
+    const { y: y1 } = p1;
+    const { x: x2 } = p2;
+    const { y: y2 } = p2;
     const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     return distance;
   }
@@ -45,15 +45,15 @@ function excercise6(): void {
   console.log(typeof PI);
   console.log(calculateCircleArea(10));
 
-  type Tperson = {
+  type TPerson = {
     name: string;
     age: number;
   };
-  const person: Tperson = {
+  const person: TPerson = {
     name: 'Serhii',
     age: 32,
   };
-  const incrementAge = (obj: Tperson): number => {
+  const incrementAge = (obj: TPerson): number => {
     return ++obj.age;
   };
   console.log(incrementAge(person));
@@ -66,8 +66,8 @@ excercise6();
 // and returns a new array with the results of function called on each element of the array (function passed as a first parameter)
 function excercise7() {
   // TODO: add type annotations
-  type Tfn = (a: number) => number;
-  function map(arr: number[], fn: Tfn) {
+  type TFn = (a: number) => number;
+  function map(arr: number[], fn: TFn) {
     const result: number[] = [];
     for (let i = 0; i < arr.length; i++) {
       result.push(fn(arr[i]));
@@ -96,23 +96,14 @@ function excercise8() {
   console.log(printGreeting(product));
   console.log(printGreeting({ name: 'Bread', price: 11 }));
   product.color = 'white';
-  type Product = {
-    name: string;
-    price: number;
-    color: string;
-  };
-  const product2: Product = {
-    name: 'Bread',
-    price: 11,
-    color: 'white',
-  };
-  product = product2;
+  product = { name: 'Bread', price: 11, color: 'white' } as Tproduct;
   console.log(product);
 }
 excercise8();
 
 // declare a `Book` class with a constructor and a method
 function excercise9() {
+  const date = new Date().getFullYear();
   class Book {
     title: string;
     year: number;
@@ -123,14 +114,11 @@ function excercise9() {
     getInfo(): string {
       return `${this.title} is published in ${this.year}`;
     }
-    getAge() {
-      return new Date().getFullYear() - this.year;
+    getAge(): number {
+      return date - this.year;
     }
-    revise(year: number) {
-      if (
-        year > new Date().getFullYear() ||
-        year < new Date().getFullYear() - 1
-      ) {
+    revise(year: number): number | string {
+      if (year > date || year < this.year) {
         return 'Wrong year';
       }
       return (this.year = year);

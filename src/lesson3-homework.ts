@@ -209,6 +209,7 @@ excercise15();
 // use type declarations to fix the comments in the code
 function excercise16() {
   // TODO: add code which uses process.env.NODE_ENV variable,
+  console.log(process.env.NODE_ENV)
   // TODO: try to compile and see the error
   // TODO: add type declaration for process.env.NODE_ENV variable in global.d.ts file
   // TODO: try to compile and see the error fixed

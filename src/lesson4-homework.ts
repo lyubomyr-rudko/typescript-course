@@ -1,6 +1,3 @@
-// add readonly modifier to prevent props reassignment
-import {log} from "util";
-
 function exercise17() {
   // TODO: define class Student with properties name, age, studentId
   // TODO: add constructor to initialize the properties

@@ -150,7 +150,7 @@ excercise13();
 // run the code before and after adding type casting to see the difference
 function excercise14() {
   function fetchUserAge() {
-    const responseText = '{"name": "John", "age": "18"}';
+    const responseText = '{"name": "John", "age": "16"}';
 
     const age = JSON.parse(responseText).age;
 

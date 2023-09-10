@@ -54,6 +54,7 @@ function excercise13() {
   const userAge = fetchUserAge();
   // TODO: uncomment the following code and add type assertion to fix the error
   // console.log(userAge + 1);
+
 }
 // TODO: compile and run the code
 excercise13();

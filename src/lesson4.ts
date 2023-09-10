@@ -415,14 +415,14 @@ function typeNarrowing() {
       public name: string,
       public age: number,
       public driverLicenseId: string
-    ) {}
+    ) { }
   }
   class Animal {
     constructor(
       public name: string,
       public age: number,
       public species: string
-    ) {}
+    ) { }
   }
   type TPassanger = Human | Animal;
 

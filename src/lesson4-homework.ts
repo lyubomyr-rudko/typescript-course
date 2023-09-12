@@ -7,6 +7,27 @@ function exercise17() {
   // TODO: print the student info to console
   // TODO: try to change the studentId property
   // TODO: change the studentId property to readonly, make sure that changing the property is not allowed
+
+  class Student {
+    name: string;
+    age: number;
+    readonly studentId: number;
+
+    constructor(name: string, age: number, studentId: number) {
+      this.name = name;
+      this.age = age;
+      this.studentId = studentId;
+    }
+
+    printStudent() {
+      console.log(`Exercise17: name: ${this.name}, age: ${this.age}, id: ${this.studentId}`)
+    }
+  }
+
+  const student: Student = new Student('Bob', 25, 78456);
+  student.printStudent()
+  // student.studentId = 9999; <-- Error! Not allowed.
+
 }
 // TODO: compile and run the code
 exercise17();
@@ -17,37 +38,39 @@ function exercise18() {
     name: string;
     width: number;
     height: number;
-    color: string;
-    os: string;
+    color?: string;
+    os?: string;
     space: number;
   };
 
   // TODO: uncomment the code below and update the type definition to fix compile time error
 
-  // const widgetWithSize: TWidget = {
-  //   name: 'widget',
-  //   width: 10,
-  //   height: 20,
-  //   color: 'red',
-  //   space: 100,
-  // }
+  const widgetWithSize: TWidget = {
+    name: 'widget',
+    width: 10,
+    height: 20,
+    color: 'red',
+    space: 100,
+  }
 
-  // const desktopWidget:TWidget = {
-  //   name: 'widget',
-  //   width: 10,
-  //   height: 20,
-  //   os: 'windows',
-  //   space: 100,
-  // }
+  const desktopWidget:TWidget = {
+    name: 'widget',
+    width: 10,
+    height: 20,
+    os: 'windows',
+    space: 100,
+  }
 
   // TODO: print the result to console
+  console.log(`Exercise18: ${widgetWithSize}`)
+  console.log(`Exercise18: ${desktopWidget}`)
 }
 // TODO: compile and run the code
 exercise18();
 
 // use uniton types to replace unknown type for compile time type checking
 function exercise19() {
-  function formatCommandLine(command: unknown) {
+  function formatCommandLine(command: string | string[]) {
     if (typeof command === "string") {
       return command.trim();
     } else if (Array.isArray(command)) {
@@ -58,7 +81,7 @@ function exercise19() {
 
   console.log(formatCommandLine("  git status  ")); // git status
   console.log(formatCommandLine(["git ", " status "])); // git status
-  console.log(formatCommandLine(false)); // run time error - should be compile time error instead
+  //console.log(formatCommandLine(false)); // run time error - should be compile time error instead
 }
 // TODO: compile and run the code
 exercise19();
@@ -67,7 +90,9 @@ exercise19();
 function exercise20() {
   // TODO: define rock, paper, scissors literal type and assign it to TMove type
   // TODO: add type check to the function below
-  function rockPaperSizorsVins(me: unknown, other: unknown) {
+  type TMove = "rock" | "paper" | "scissors"
+
+  function rockPaperSizorsVins(me: TMove, other: TMove): boolean | string  {
     if (me === "rock" && other === "paper") {
       return false;
     }
@@ -84,7 +109,7 @@ function exercise20() {
   console.log(rockPaperSizorsVins("scissors", "rock")); // false
   console.log(rockPaperSizorsVins("rock", "scissors")); // true
   // TODO: make sure that the following calls are not allowed
-  console.log(rockPaperSizorsVins("papapaper", "scissors")); // true - no type check
+  //console.log(rockPaperSizorsVins("papapaper", "scissors")); // true - no type check
 }
 // TODO: compile and run the code
 exercise20();
@@ -97,26 +122,17 @@ function exercise21() {
     name: string;
   };
 
-  type TWidgetWithSize = {
-    name: string;
+  type TWidgetWithSize = TWidget & {
     width: number;
     height: number;
     color: string;
   };
 
-  type TDesktopWidget = {
-    name: string;
-    width: number;
-    height: number;
-    color: string;
+  type TDesktopWidget = TWidgetWithSize & {
     os: string;
   };
 
-  type TMobileWidget = {
-    name: string;
-    width: number;
-    height: number;
-    color: string;
+  type TMobileWidget = TWidgetWithSize &{
     space: number;
   };
 
@@ -182,23 +198,37 @@ exercise21();
 
 // rewrite the code using async await
 function exercise22() {
-  function printMessagesWithTimeout() {
-    setTimeout(() => {
-      console.log("1");
+  // function printMessagesWithTimeout() {
+  //   setTimeout(() => {
+  //     console.log("1");
 
-      setTimeout(() => {
-        console.log("2");
-      }, 1000);
+  //     setTimeout(() => {
+  //       console.log("2");
+  //     }, 1000);
 
-      setTimeout(() => {
-        console.log("3");
+  //     setTimeout(() => {
+  //       console.log("3");
 
-        setTimeout(() => {
-          console.log("4");
-        }, 1000);
-      }, 1000);
-    }, 1000);
+  //       setTimeout(() => {
+  //         console.log("4");
+  //       }, 1000);
+  //     }, 1000);
+  //   }, 1000);
+  // }
+
+  const pause = (msec: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, msec));
+
+  async function printMessagesWithTimeout(): Promise<void> {
+    await pause(1000);
+    console.log("1");
+    await pause(1000);
+    console.log("2");
+    await pause(1000);
+    console.log("3");
+    await pause(1000);
+    console.log("4");
   }
+
   printMessagesWithTimeout();
 }
 // TODO: compile and run the code

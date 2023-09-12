@@ -110,8 +110,8 @@ function excercise7() {
   function map(array:TArray, fn:Tfunction):TArray{
 
     const result: TArray = [];
-    for (let i = 0; i < arr.length; i++) {
-      result.push(fn(arr[i]));
+    for (let i = 0; i < array.length; i++) {
+      result.push(fn(array[i]));
     }
     return result;
   }

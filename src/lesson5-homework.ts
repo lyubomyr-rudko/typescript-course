@@ -1,9 +1,19 @@
 // use type narrowing to print the passanger info
 function exercise23() {
     // TODO: define THuman type with properties name, age, driverLicenseId
-    type THuman = { name: string; age: number; driverLicenseId: string };
+    type THuman = {
+        name: string;
+        age: number;
+        driverLicenseId: string;
+        type?: 'human';
+    };
     // TODO: define TAnimal type with properties name, age, species
-    type TAnimal = { name: string; age: number; species: string };
+    type TAnimal = {
+        name: string;
+        age: number;
+        species: string;
+        type?: 'animal';
+    };
     // TODO: define TPassanger type as union of THuman and TAnimal
     type TPassanger = THuman | TAnimal;
 
@@ -26,12 +36,62 @@ function exercise23() {
         name: 'Serhii',
         age: 32,
         driverLicenseId: 'AB1234567',
+        type: 'human',
     };
-    const animal: TAnimal = { name: 'Simba', age: 20, species: 'lion' };
+    const animal: TAnimal = {
+        name: 'Simba',
+        age: 20,
+        species: 'lion',
+        type: 'animal',
+    };
     printPassangerInfo(human);
     printPassangerInfo(animal);
     // TODO: Implement function printPassangerInfo using instanceof operator to narrow the type of the passanger
+    class Human implements THuman {
+        constructor(
+            public name: string,
+            public age: number,
+            public driverLicenseId: string
+        ) {}
+    }
+    class Animal implements TAnimal {
+        constructor(
+            public name: string,
+            public age: number,
+            public species: string
+        ) {}
+    }
+
+    function printPassangerInfo2(passanger: TPassanger): void {
+        console.log(passanger.name);
+        console.log(passanger.age);
+        if (passanger instanceof Human) {
+            console.log(passanger.driverLicenseId);
+        }
+        if (passanger instanceof Animal) {
+            console.log(passanger.species);
+        }
+    }
+
+    const human2 = new Human('Serhii', 32, 'AB1234567');
+    const animal2 = new Animal('Simba', 20, 'lion');
+
+    printPassangerInfo2(human2);
+    printPassangerInfo2(animal2);
+
     // TODO: Add implementation of the printPassangerInfo using property check to narrow the type of the passanger
+    function printPassangerInfo3(passanger: TPassanger): void {
+        if (passanger.type === 'human') {
+            console.log(passanger.driverLicenseId);
+        }
+
+        if (passanger.type === 'animal') {
+            console.log(passanger.species);
+        }
+    }
+
+    printPassangerInfo3(human);
+    printPassangerInfo3(animal);
 }
 // TODO: compile and run the code
 exercise23();

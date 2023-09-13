@@ -14,6 +14,31 @@ function excercise10() {
   // TODO: change width and height properties to be prefixed with #, to use ESNext private fields support
   // TODO: change compiler target to ESNext, complile and see the compiled code
   // TODO: change compiler target to ES5, try to compile, check if you get the error Private identifiers are only available when targeting ECMAScript 2015 and higher.(18028)
+  console.log("\n---Exercise 10 start---\n")
+
+  class Rectangle{
+    #width:number
+    #height:number
+
+    constructor(width:number, height:number){
+      this.#width = width
+      this.#height = height
+    }
+
+    getArea():number{
+      return this.#width * this.#height
+    }
+
+    getPerimeter():number{
+      return (this.#width + this.#height) * 2
+    }
+  }
+
+  const customRectangle = new Rectangle(10, 20)
+  console.log("Area of the rectangle: ", customRectangle.getArea())
+  console.log("Perimeter of the rectangle: ", customRectangle.getPerimeter())
+  
+  console.log("\n---Exercise 10 end---\n")
 }
 // TODO: compile and run the code
 excercise10();
@@ -30,6 +55,41 @@ function excercise11() {
   // TODO: create an instance of the Stack class with string type
   // TODO: push two strings to the stack
   // TODO: pop an item from the stack and print it to console, calling toUpperCase method on it
+  console.log("\n---Exercise 11 start---\n")
+
+  class Stack<T>{
+    private data:T[]
+
+    constructor(){
+      this.data = []
+    }
+
+    push(element:T){
+      this.data.unshift(element)
+    }
+    
+    pop():T | undefined{
+      return this.data.shift()
+    }
+  }
+
+  const customNumbersStack = new Stack<number>()
+  customNumbersStack.push(1)
+  customNumbersStack.push(2)
+
+  console.log("Resulted numbers stack object: ", customNumbersStack)
+  console.log(`Pop top element from the stack. Result: ${customNumbersStack.pop()?.toFixed()}`)
+
+  console.log("")
+
+  const customStringsStack = new Stack<string>()
+  customStringsStack.push("1Codo")
+  customStringsStack.push("2Rodo")
+
+  console.log("Resulted strings stack object: ", customStringsStack)
+  console.log(`Pop top element from the stack. Result: ${customStringsStack.pop()?.toUpperCase()}`)
+
+  console.log("\n---Exercise 11 end---\n")
 }
 // TODO: compile and run the code
 excercise11();
@@ -40,6 +100,25 @@ function excercise12() {
   // TODO: create a function that takes an array of strings and returns a random string from the array
   // TODO: create a function that takes an array of objects and returns a random object from the array
   // TODO: observe the same structure of the functions above, and create a generic function which takes an array of items of type T and returns the random item from the array
+
+  console.log("\n---Exercise 12 start---\n")
+  //no, i won't create 3 similar functions :)
+  function returnRandomItem<T>(data:T[]):T|undefined{
+    if(data.length === 0) { return undefined }
+    
+    const targetIndex = Math.floor(Math.random() * data.length)
+    return data[targetIndex]
+  }
+
+  const randomObjects:{name:string}[] = [{name:"Codo"}, {name:"Dodo"}, {name:"Rodo"}]
+  const randomNumbers:number[] = [1,2,3]
+  const randomStrings:string[] = ["Codo", "Dodo", "Rodo"]
+
+  console.log("Random object: ", returnRandomItem(randomObjects))
+  console.log("Random number: ", returnRandomItem(randomNumbers))
+  console.log("Random string: ", returnRandomItem(randomStrings))
+
+  console.log("\n---Exercise 12 start---\n")
 }
 // TODO: compile and run the code
 excercise12();
@@ -53,7 +132,7 @@ function excercise13() {
   }
   const userAge = fetchUserAge();
   // TODO: uncomment the following code and add type assertion to fix the error
-  // console.log(userAge + 1);
+  console.log(userAge as number + 1);
 }
 // TODO: compile and run the code
 excercise13();
@@ -62,11 +141,12 @@ excercise13();
 // run the code before and after adding type casting to see the difference
 function excercise14() {
   function fetchUserAge() {
-    const responseText = '{"name": "John", "age": "16"}';
 
+    const responseText = '{"name": "John", "age": "9"}';
     return JSON.parse(responseText).age;
   }
-  const userAge = fetchUserAge();
+  const userAge = fetchUserAge() as number;
+  console.log(typeof userAge)
   // TODO: run the code below and observe the result, explain why it is happening,
   // TODO: add type casting to the function above, to fix the error
   if (userAge === 16) {
@@ -83,21 +163,37 @@ excercise14();
 // add type safety to the code which uses any
 function excercise15() {
   // TODO: declare a type for user object, which has a name property of type string
-
+  type TUser = { name:string }
   // TODO: fix the fetchUsers function to return an array of users, not any type
-  function fetchUsers() {
+  function fetchUsers():TUser[] {
     // TODO: add type safety to the data variable, annotate it with the type of users
-    const data: unknown = JSON.parse(
+    const data: TUser[] = JSON.parse(
       '{"users": [{"name": "John"}, {"name": "Jane"}]}'
-    );
+    )?.users;
 
     // TODO: add check for the data type to contain list of users
-    return data;
+
+    if(data?.length > 0 
+      && typeof data === "object" 
+      && Array.isArray(data) 
+      && typeof data[0]?.name === "string" ){
+      console.log("passed data validation in excercise15")
+      return data
+    } else{
+      console.log("Unknown data in excercise15")
+      return []
+    }
   }
   // TODO: fix typings of the users variable (currently it is of type any)
-  const users = fetchUsers();
+  const users:TUser[] = fetchUsers()
   // TODO: add type safety to the code to print the names of the users to console
-  // users.forEach((user) => console.log(user.name));
+  users.forEach((user) => {
+    if(typeof user?.name === "string"){
+      console.log(user?.name)
+    } else{
+      console.log("printed data is not of TUser type: ", user?.name)
+    }
+  });
 }
 // TODO: compile and run the code
 excercise15();

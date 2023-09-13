@@ -301,21 +301,21 @@
     }
 
     // TODO: declare class WidgetWithSize which implements IWidgetWithSize
-    class WidgetWithSize extends WidgetPrintable implements IWidgetWithSize {
+    class WidgetWithSize extends Widget implements IWidgetWithSize {
       constructor(
         public name: string,
         public width: number,
         public height: number,
         public color: string,
       ) {
-        super();
+        super(name);
       }
       resize(): void {
         logger(`name ${this.name} width ${this.width}`);
       }
     }
     // TODO: declare class DesktopWidget which implements IDesktopWidget
-    class DesktopWidget extends WidgetPrintable implements IDesktopWidget {
+    class DesktopWidget extends WidgetWithSize implements IDesktopWidget {
       constructor(
         public name: string,
         public width: number,
@@ -323,17 +323,14 @@
         public color: string,
         public os: string,
       ) {
-        super();
-      }
-      resize(): void {
-        logger(`Resize method name ${this.name} width ${this.width}`);
+        super(name, width, height, color);
       }
       open(): void {
         logger(`Open method name ${this.name} width ${this.width}`);
       }
     }
     // TODO: declare class MobileWidget which implements IMobileWidget
-    class MobileWidget extends WidgetPrintable implements IMobileWidget {
+    class MobileWidget extends DesktopWidget implements IMobileWidget {
       constructor(
         public name: string,
         public width: number,
@@ -342,13 +339,7 @@
         public os: string,
         public space: number,
       ) {
-        super();
-      }
-      resize(): void {
-        logger(`Resize method name ${this.name} width ${this.width}`);
-      }
-      open(): void {
-        logger(`Open method name ${this.name} width ${this.width}`);
+        super(name, width, height, color, os);
       }
       install(): void {
         logger(`Install method name ${this.name} width ${this.width}`);
@@ -356,7 +347,7 @@
     }
     // TODO: declare class DesktopAndMobileWidget which implements IDesktopWidget and IMobileWidget
     class DesktopAndMobileWidget
-      extends WidgetPrintable
+      extends MobileWidget
       implements IDesktopWidget, IMobileWidget
     {
       constructor(
@@ -367,16 +358,7 @@
         public os: string,
         public space: number,
       ) {
-        super();
-      }
-      resize(): void {
-        logger(`Resize method name ${this.name} width ${this.width}`);
-      }
-      open(): void {
-        logger(`Open method name ${this.name} width ${this.width}`);
-      }
-      install(): void {
-        logger(`Install method name ${this.name} width ${this.width}`);
+        super(name, width, height, color, os, space);
       }
     }
 

@@ -58,14 +58,14 @@ function lesson5() {
         public name: string,
         public age: number,
         public driverLicenseId: string
-      ) {}
+      ) { }
     }
     class Animal {
       constructor(
         public name: string,
         public age: number,
         public species: string
-      ) {}
+      ) { }
     }
     type TPassanger = Human | Animal;
 
@@ -342,6 +342,7 @@ function lesson5() {
   }
   assertionFunctions();
 
+
   // Interfaces
   function interfaces() {
     type TPerson = {
@@ -434,7 +435,7 @@ function lesson5() {
       }
     }
     class Personv2 implements TPerson {
-      constructor(public name: string, public age: number) {}
+      constructor(public name: string, public age: number) { }
       sayHello(): void {
         console.log("hello", this.name);
       }
@@ -456,7 +457,7 @@ function lesson5() {
     }
 
     class Person2 implements IName, IAge {
-      constructor(public name: string, public age: number) {}
+      constructor(public name: string, public age: number) { }
       sayHello(): void {
         console.log("hello", this.name);
       }

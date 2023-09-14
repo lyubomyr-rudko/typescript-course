@@ -1,5 +1,31 @@
 "use strict";
 // ********* Lesson 5 *********
+// Q/A
+// settimeout with 0 - https://javascript.info/settimeout-setinterval
+function Q1() {
+    setTimeout(() => console.log("1"), 1);
+    setTimeout(() => {
+        setTimeout(() => console.log("4"), 1);
+        setTimeout(() => console.log("5"), 1);
+        setTimeout(() => console.log("0"));
+        setTimeout(() => console.log("0"));
+        setTimeout(() => console.log("0"));
+    }, 1);
+    setTimeout(() => console.log("2"), 1);
+    setTimeout(() => console.log("3"), 1);
+}
+// return type generic - https://www.typescriptlang.org/docs/handbook/generics.html#generic-type-variables
+function Q2() {
+    function formatCommandLineV2(command) {
+        if (typeof command === "string") {
+            return command.trim();
+        }
+        // it must be an array if it is not a string
+        return command.map((arg) => arg.trim()).join(" ");
+    }
+    let a = formatCommandLineV2("  git status  ");
+    let b = formatCommandLineV2(["  git", "status  "]);
+}
 // Type Narrowing
 function typeNarrowing() {
     function repeat(value, times) {
@@ -218,6 +244,14 @@ function implementsKeyword() {
             this.age = age;
         }
     }
+    class Personv2 {
+        name;
+        age;
+        constructor(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+    }
     const person = new Person("John", 18);
     console.log(person.name, person.age);
     class Person2 {
@@ -230,6 +264,10 @@ function implementsKeyword() {
     }
     const person2 = new Person2("John", 18);
     console.log(person2.name, person2.age);
+    const somethingWithAge = person2;
+    console.log(somethingWithAge.age);
+    const somethingWithName = person2;
+    console.log(somethingWithName.name);
 }
 // Interfaces vs Type Aliases
 function interfacesVsTypeAliases() {
@@ -310,6 +348,7 @@ function interfacesVsTypeAliases() {
     // interface Point { y: number; }
     // const point: Point = { x: 1, y: 2 };
 }
+// Q/A
 // Type Narrowing
 // Discriminated Unions
 // Non-null Assertion Operator

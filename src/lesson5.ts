@@ -17,9 +17,7 @@ function lesson5() {
   function Q2() {
     function formatCommandLineV2(command: string): string;
     function formatCommandLineV2(command: string[]): string[];
-    function formatCommandLineV2(
-      command: string | string[]
-    ): string | string[] {
+    function formatCommandLineV2(command: string | string[]): string | string[] {
       if (typeof command === "string") {
         return command.trim();
       }
@@ -54,18 +52,10 @@ function lesson5() {
 
     // instanceof operator is another way to narrow the type of the object
     class Human {
-      constructor(
-        public name: string,
-        public age: number,
-        public driverLicenseId: string
-      ) {}
+      constructor(public name: string, public age: number, public driverLicenseId: string) {}
     }
     class Animal {
-      constructor(
-        public name: string,
-        public age: number,
-        public species: string
-      ) {}
+      constructor(public name: string, public age: number, public species: string) {}
     }
     type TPassanger = Human | Animal;
 
@@ -300,17 +290,12 @@ function lesson5() {
       }
     }
     function loadPerson(): unknown {
-      const person = JSON.parse(
-        '{ "name": "John", "dateOfBirth": "1990-01-01T00:00:00.000Z" }'
-      );
+      const person = JSON.parse('{ "name": "John", "dateOfBirth": "1990-01-01T00:00:00.000Z" }');
       return person as unknown;
     }
 
     const person = loadPerson();
-    assert(
-      person !== null && person !== undefined && "name",
-      "person must be defined"
-    );
+    assert(person !== null && person !== undefined && "name", "person must be defined");
     // ????
     // console.log(person.name);
 
@@ -330,10 +315,7 @@ function lesson5() {
       //     person !== undefined &&
       //   "person must be defined"
       // );
-      assert(
-        typeof (value as TPerson).name === "string",
-        "name must be a string"
-      );
+      assert(typeof (value as TPerson).name === "string", "name must be a string");
       assertDate((value as TPerson).dateOfBirth);
     }
 

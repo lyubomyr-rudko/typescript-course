@@ -1,5 +1,7 @@
 // Create and use a type guard
 function exercise29() {
+  console.log("\n---Exercise 29 start---\n")
+
   type TWidget = {
     name: string;
   };
@@ -9,25 +11,29 @@ function exercise29() {
   type TThing = TWidget | TGadget;
 
   // TODO: implement isWidget function to be a type guard
-  function isWidget(arg: TThing) {
-    return false;
+  function isWidget(arg: TThing): arg is TWidget {
+    return (arg as TWidget)?.name !== undefined;
   }
 
   function printThingDescription(arg: TThing) {
     // TODO: uncomment the following code
-    // if (isWidget(arg)) {
-    //   console.log(arg.name);
-    // } else {
-    //   console.log(arg.os);
-    // }
+    if (isWidget(arg)) {
+      console.log(arg.name);
+    } else {
+      console.log(arg.os);
+    }
   }
   printThingDescription({ name: "widget" });
   printThingDescription({ os: "android" });
+
+  console.log("\n---Exercise 29 end---\n")
 }
 exercise29();
 
 // Create an overloaded function definitions
 function exercise30() {
+  console.log("\n---Exercise 30 start---\n")
+
   type TWidget = {
     name: string;
     cost?: number;
@@ -39,23 +45,28 @@ function exercise30() {
   type TThing = TWidget | TGadget;
 
   // TODO: add function overloading here to ensure that function return type matches the input value type
-  function assignWidgetCost(obj: TThing): TThing {
+  function assignWidgetCost(obj: TWidget): TWidget
+  function assignWidgetCost(obj: TGadget): TGadget 
+  function assignWidgetCost(obj:TThing):TThing{
     obj.cost = 100;
 
     return obj;
   }
 
   // TODO: fix problem - typeof a: TThing, not TWidget
-  const a = assignWidgetCost({ name: "widget" } as TWidget);
+  const a = assignWidgetCost({ name: "widget" });
   // TODO: fix same here - typeof b: TThing, not TGadget
-  const b = assignWidgetCost({ os: "android" } as TGadget);
+  const b = assignWidgetCost({ os: "android" });
 
   console.log(a, b);
+  console.log("\n---Exercise 30 end---\n")
 }
 exercise30();
 
 // Create call signatures
 function exercise31() {
+  console.log("\n---Exercise 31 start---\n")
+
   function handleSaveUserSubmit(
     firstName: string,
     lastName: string,
@@ -92,11 +103,15 @@ function exercise31() {
     // const user = new ctor('John Smith');
     // console.log(user);
   }
+
+  console.log("\n---Exercise 31 end---\n")
 }
 exercise31();
 
 // Create an abstract class and concrete classes
 function exercise32() {
+  console.log("\n---Exercise 32 start---\n")
+
   // TODO: make this class abstract
   class Animal {
     constructor(public name: string) {
@@ -115,11 +130,14 @@ function exercise32() {
   // const myDog = new Dog('Buddy');
   // myDog.eat();
   // myDog.makeSound();
+
+  console.log("\n---Exercise 32 end---\n")
 }
 exercise32();
 
 // Create a type for a dictionary with string keys and number values
 function exercise33() {
+  console.log("\n---Exercise 33 start---\n")
   // TODO: create a type TDictionary
   // type TDictionary = {};
 
@@ -136,11 +154,14 @@ function exercise33() {
     return "";
   }
   console.log(getMostFrequentCharacter("She sells seashells by the seashore."));
+
+  console.log("\n---Exercise 33 end---\n")
 }
 exercise33();
 
 // Use index signature and caching
 function exercise34() {
+  console.log("\n---Exercise 34 start---\n")
   // TODO: Define a dictionary of student grades, add type definition using index signature
   // key is a student name, value is an array of grades (numbers)
   const studentGrades = {};
@@ -162,5 +183,7 @@ function exercise34() {
   }
 
   // TODO: add caching for the average grade calculation to the calculateAverageGrade function
+
+  console.log("\n---Exercise 34 start---\n")
 }
 exercise34();

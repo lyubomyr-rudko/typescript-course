@@ -74,16 +74,18 @@ function exercise31() {
   ) {}
 
   // TODO: add call signatures here. Add overrides for optional email param
-  type TSaveUserCallback = { /* replace  with your code */ x: "" };
+  type TSaveUserCallback = (firstName: string,lastName: string, email?: string)=>void
   // TODO: add call signatures here. Add overrides for optional email param
-  interface ISaveUserCallback {}
+  interface ISaveUserCallback {
+    (firstName: string,lastName: string, email?: string):void
+  }
 
   function createForm(onSubmit: TSaveUserCallback) {
     const firstName = "John";
     const lastName = "Smith";
 
     // TODO: uncomment the following line
-    // onSubmit(firstName, lastName);
+    onSubmit(firstName, lastName);
   }
   function createForm2(onSubmit: ISaveUserCallback) {
     const firstName = "John";
@@ -91,18 +93,22 @@ function exercise31() {
     const email = "jsmith@somemail.some.com";
 
     // TOOD: uncomment the following line
-    // onSubmit(firstName, lastName, email);
+    onSubmit(firstName, lastName, email);
   }
 
   // *** add constructor signatures here ***
-  type TUserConstructor = { /* replace  with your code */ x: "" };
-  interface IUserConstructor {}
+  type TUserConstructor = new (firstName: string, lastName: string, email?: string)=>void
+  interface IUserConstructor {
+    new (firstName: string,lastName: string, email?: string):void
+  }
 
   function createAndPrintUser(ctor: IUserConstructor) {
     // TOOD: uncomment the following lines
-    // const user = new ctor('John Smith');
-    // console.log(user);
+    const user = new ctor('John', "Smith");
+    console.log(user);
   }
+
+  createAndPrintUser(class{constructor(public firstName: string, public lastName: string, public email?: string){}}) //wow
 
   console.log("\n---Exercise 31 end---\n")
 }
@@ -113,23 +119,27 @@ function exercise32() {
   console.log("\n---Exercise 32 start---\n")
 
   // TODO: make this class abstract
-  class Animal {
+  abstract class Animal {
     constructor(public name: string) {
       this.name = name;
     }
     // TODO: add abstract method named makeSound
-    // makeSound ...
+    abstract makeSound():void;
     eat(): void {
       console.log("eating");
     }
   }
   // TODO: inherit from Animal and implement makeSound method
-  class Dog {}
+  class Dog extends Animal {
+    makeSound(): void {
+        console.log("Dog sound")
+    }
+  }
 
   // TODO: uncomment the following lines, fix the errors
-  // const myDog = new Dog('Buddy');
-  // myDog.eat();
-  // myDog.makeSound();
+  const myDog = new Dog('Buddy');
+  myDog.eat();
+  myDog.makeSound();
 
   console.log("\n---Exercise 32 end---\n")
 }
@@ -139,19 +149,54 @@ exercise32();
 function exercise33() {
   console.log("\n---Exercise 33 start---\n")
   // TODO: create a type TDictionary
-  // type TDictionary = {};
+  type TDictionary = {
+    [key:string]:string
+  };
 
   // TODO: const dictionary variable of TDictionary type, assign some values (1, 2, 3)
-  const dictionary = {};
+  const dictionary:TDictionary = {
+    c:"Dodo",
+    d:"06868686868",
+    e:"none"
+  };
 
   // TODO: uncomment the following lines, fix the errors
-  // dictionary['c'] = 3;
-  // dictionary['d'] = '3'; // should cause an error error
+  dictionary['c'] = '3';
+  dictionary['d'] = '3'; // should cause an error error
 
   // TODO: implement a function that calculates number of characters
   // in a string using the dictionary type, and returns a most frequent character
   function getMostFrequentCharacter(str: string): string {
-    return "";
+    const preparedString = str.toLocaleLowerCase()
+    console.log("d")
+    type TSymbolCounterDictionary = {
+      [key:string]:number
+    }
+
+    const lettersDictionary:TSymbolCounterDictionary = {}
+
+    for(let i = 0; i<preparedString.length; i++){
+      if(!lettersDictionary[preparedString[i]]){
+        lettersDictionary[preparedString[i]] = 1
+      } else{
+        lettersDictionary[preparedString[i]]++
+      }
+    }
+
+    let highestNumber:number = 0
+    let resultedSymbol:string = ""
+
+    for (let key in lettersDictionary) {
+      if(highestNumber < lettersDictionary[key]){
+        highestNumber = lettersDictionary[key]
+        resultedSymbol = key
+      }
+    }
+
+    console.log("highest number", highestNumber)
+    console.log(lettersDictionary)
+
+    return resultedSymbol;
   }
   console.log(getMostFrequentCharacter("She sells seashells by the seashore."));
 
@@ -164,14 +209,43 @@ function exercise34() {
   console.log("\n---Exercise 34 start---\n")
   // TODO: Define a dictionary of student grades, add type definition using index signature
   // key is a student name, value is an array of grades (numbers)
-  const studentGrades = {};
+  type TDictionaryStudentsGrade = {
+    [key:string]:number[]
+  }
+
+  type TDictionaryStudentsAverageGrade = {
+    [key:string]:number
+  }
+
+  const studentGrades:TDictionaryStudentsGrade = {
+    "Codo": [7,5,5,1,1],
+    "Dodo": [6,7,4,7,3],
+    "Fodo": [4,4,7,1,1],
+    "Rodo": [1,1,1,1,1]
+  };
+
+  const cashedStudents:TDictionaryStudentsAverageGrade = { }
 
   // TODO: Implement function to calculate the average grade for a student
   function calculateAverageGrade(studentName: string): number | string {
-    const studentFound = false;
+    const studentCashed:boolean = !!cashedStudents[studentName]
+    if(studentCashed){
+      return cashedStudents[studentName]
+    }
+
+    const studentFound:boolean = !!studentGrades[studentName]
+
     if (studentFound) {
       // TODO: calculate average grade
-      return 0;
+      const sum:number = studentGrades[studentName].reduce((accumulator, currentValue) => {
+        return accumulator + currentValue
+      }, 0)
+
+      const averageGrade:number = sum / studentGrades[studentName].length
+
+      cashedStudents[studentName] = averageGrade
+
+      return averageGrade
     } else {
       return "Student not found";
     }
@@ -180,10 +254,12 @@ function exercise34() {
   // TODO: Iterate through the dictionary and display each student's average grade
   for (const studentName in studentGrades) {
     // TODO: call calculateAverageGrade and print the result
+    const averageGrade = calculateAverageGrade(studentName)
+    console.log(`${studentName} average grade - ${averageGrade} points`)
   }
 
-  // TODO: add caching for the average grade calculation to the calculateAverageGrade function
+  // TODO: add caching for the average grade calculation to the calculateAverageGrade function. Done
 
-  console.log("\n---Exercise 34 start---\n")
+  console.log("\n---Exercise 34 end---\n")
 }
 exercise34();

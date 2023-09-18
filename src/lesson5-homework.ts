@@ -251,7 +251,7 @@ function exercise28() {
   }
   // TODO: declare interface IMobileWidget which extends IWidgetWithSize and adds space property
   // TODO: add install method to IMobileWidget interface
-  interface IMobileWidget extends IWidgetWithSize {
+  interface IMobileWidget extends IWidgetWithSize, IWidgetPrintable {
     // space property
     space: number;
     // install method

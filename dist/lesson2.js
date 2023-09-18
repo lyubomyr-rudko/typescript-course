@@ -47,11 +47,14 @@ function printPoint(point) {
     console.log(`Point: ${point.x.toFixed(2)}, ${point.y.toFixed(2)}`);
 }
 printPoint(point2D);
+printPoint({ x: 1, y: 2 });
 printPoint(point3D2);
 let user1 = { name: "John", age: 23 };
 let user;
 // Classes
 class User {
+    name;
+    age;
     constructor(name, age) {
         this.name = name; // this - instance of the class
         this.age = age;
@@ -64,10 +67,14 @@ class User {
 let user2 = new User("John", 23);
 user2.sayHello();
 class Point {
+    x;
+    y;
     constructor(x, y) {
         this.x = x; // this - instance of the class
         this.y = y;
     }
+    // constructor(protected x: number, protected y: number) {
+    // }
     logAction(str) {
         console.log(str, this);
     }
@@ -81,6 +88,7 @@ class Point {
     }
 }
 class Point3D extends Point {
+    z;
     constructor(x, y, z) {
         super(x, y);
         this.z = z;

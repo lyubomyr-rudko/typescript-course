@@ -83,7 +83,7 @@ function excercise7() {
     // }
     function map(array, fn) {
         const result = [];
-        for (let i = 0; i < arr.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             result.push(fn(array[i]));
         }
         return result;
@@ -131,6 +131,10 @@ excercise8();
 function excercise9() {
     // TODO: declare a `Book` class with a constructor and a method `getInfo` which returns the book info as a string
     class Book {
+        // TODO: constructor should take three parameters - title and year of publication
+        // TODO: method `getInfo` should return the book title and year as a string
+        title;
+        year;
         constructor(title, year) {
             this.title = title;
             this.year = year;
@@ -164,6 +168,8 @@ function excercise9() {
     // TODO: try to access the year property from outside of the class - observe the error
     // TODO: change protected modifier to the year property, remove private modifier
     class Magazine extends Book {
+        month;
+        day;
         constructor(title, year, month, day) {
             super(title, year);
             this.month = month;
@@ -177,7 +183,7 @@ function excercise9() {
         }
     }
     // TODO: create a subclass `Magazine` which extends `Book` class
-    // TODO: add a new properties `month` and `day` to the `Magazine` class
+    // TODO: add a new properties `month` and `day` to the `Magazine` class (no need to validate month and day)
     // TODO: add constructor override to the Magazine class which takes four parameters - title, year, month and day
     // TODO: use super keyword to call the `Book` class constructor with title and year parameters
     // TODO: add a method override `getInfo` to the `Magazine` class which prints the magazine info to console

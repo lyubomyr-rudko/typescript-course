@@ -16,9 +16,9 @@ function exercise29() {
   function printThingDescription(arg: TThing) {
     // + TODO: uncomment the following code
     if (isWidget(arg)) {
-      console.log(arg.name);
+      // console.log(arg.name);
     } else {
-      console.log(arg.os);
+      // console.log(arg.os);
     }
   }
   printThingDescription({ name: "widget" });
@@ -52,7 +52,7 @@ function exercise30() {
   // + TODO: fix same here - typeof b: TThing, not TGadget
   const b: TGadget = assignWidgetCost({ os: "android" });
 
-  console.log(a, b);
+  // console.log(a, b);
 }
 exercise30();
 
@@ -104,7 +104,7 @@ function exercise31() {
   function createAndPrintUser(ctor: IUserConstructor) {
     // + TOOD: uncomment the following lines
     const user = new ctor("John Smith");
-    console.log(user);
+    // console.log(user);
   }
 }
 exercise31();
@@ -120,7 +120,7 @@ function exercise32() {
     abstract makeSound(): void;
 
     eat(): void {
-      console.log("eating");
+      // console.log("eating");
     }
   }
   // + TODO: inherit from Animal and implement makeSound method
@@ -130,7 +130,7 @@ function exercise32() {
     }
 
     makeSound(): void {
-      console.log("Woof!");
+      // console.log("Woof!");
     }
   }
 
@@ -162,9 +162,33 @@ function exercise33() {
   // TODO: implement a function that calculates number of characters
   // in a string using the dictionary type, and returns a most frequent character
   function getMostFrequentCharacter(str: string): string {
-    return "";
+    const charCount: TDictionary = {};
+
+    for (const char of str) {
+      const lowerCase = char.toLowerCase();
+      if (charCount[lowerCase]) {
+        charCount[lowerCase]++;
+      } else {
+        charCount[lowerCase] = 1;
+      }
+    }
+
+    let mostFrequentChar = "";
+    let maxCount = 0;
+
+    for (const char in charCount) {
+      if (charCount[char] > maxCount) {
+        mostFrequentChar = char;
+        maxCount = charCount[char];
+      }
+    }
+
+    return mostFrequentChar;
   }
+
   console.log(getMostFrequentCharacter("She sells seashells by the seashore."));
+  console.log(getMostFrequentCharacter("eeeeeeeeaf"));
+  console.log(getMostFrequentCharacter("eaaaff"));
 }
 exercise33();
 
@@ -208,7 +232,7 @@ function exercise34() {
   for (const studentName in studentGrades) {
     // + TODO: call calculateAverageGrade and print the result
     const averageGrade = calculateAverageGrade(studentName);
-    console.log(`${studentName}: ${averageGrade}`);
+    // console.log(`${studentName}: ${averageGrade}`);
   }
 
   // + TODO: add caching for the average grade calculation to the calculateAverageGrade function

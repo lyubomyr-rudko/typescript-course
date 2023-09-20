@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "npx tsc --watch"
+    "watch": "npx tsc --watch",
+    "dev":"npx nodemon ./src/lesson4-homework.ts"
   },
   "keywords": [],
   "author": "",

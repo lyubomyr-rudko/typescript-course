@@ -404,133 +404,133 @@ function lesson7() {
   }
   decorators();
 
-  // typescript5 stage3 decorators
-  function staget3Decorators() {
-    // 1. class decorators
-    @printDecoratorData
-    class Manager {
-      task: string = "Simple task";
-      project: string = "Simple project";
-      constructor() {
-        console.log("Initializing the Manager class");
-      }
-    }
-    console.log("Before new Manager()");
-    const manager = new Manager();
-    console.log(manager);
+  // // typescript5 stage3 decorators
+  // function staget3Decorators() {
+  //   // 1. class decorators
+  //   @printDecoratorData
+  //   class Manager {
+  //     task: string = "Simple task";
+  //     project: string = "Simple project";
+  //     constructor() {
+  //       console.log("Initializing the Manager class");
+  //     }
+  //   }
+  //   console.log("Before new Manager()");
+  //   const manager = new Manager();
+  //   console.log(manager);
 
-    function printDecoratorData(
-      value: Function,
-      context: ClassDecoratorContext
-    ) {
-      console.log("value: ", value);
-      console.log(context);
-      context.addInitializer(() => {
-        console.log("Initialized class v1" + context.name);
-      });
-    }
+  //   function printDecoratorData(
+  //     value: Function,
+  //     context: ClassDecoratorContext
+  //   ) {
+  //     console.log("value: ", value);
+  //     console.log(context);
+  //     context.addInitializer(() => {
+  //       console.log("Initialized class v1" + context.name);
+  //     });
+  //   }
 
-    // 2. method decorators
-    // RESULT:
-    // class Person {
-    //   name: string;
-    //   constructor(name: string) {
-    //     this.name = name;
-    //   }
-    //   greet() {
-    //     console.log(`Hello, my name is ${this.name}.`);
-    //   }
-    //   // greet() {
-    //   //   console.log("LOG: Entering method.");
-    //   //   console.log(`Hello, my name is ${this.name}.`);
-    //   //   console.log("LOG: Exiting method.");
-    //   // }
-    // }
-    // const p = new Person("Ron");
-    // p.greet();
+  //   // 2. method decorators
+  //   // RESULT:
+  //   // class Person {
+  //   //   name: string;
+  //   //   constructor(name: string) {
+  //   //     this.name = name;
+  //   //   }
+  //   //   greet() {
+  //   //     console.log(`Hello, my name is ${this.name}.`);
+  //   //   }
+  //   //   // greet() {
+  //   //   //   console.log("LOG: Entering method.");
+  //   //   //   console.log(`Hello, my name is ${this.name}.`);
+  //   //   //   console.log("LOG: Exiting method.");
+  //   //   // }
+  //   // }
+  //   // const p = new Person("Ron");
+  //   // p.greet();
 
-    function loggedMethod(
-      originalMethod: Function,
-      _context: ClassMethodDecoratorContext
-    ) {
-      function replacementMethod(this: any, ...args: any[]) {
-        console.log("LOG: Entering method.", _context);
-        const result = originalMethod.call(this, ...args);
-        console.log("LOG: Exiting method.");
-        return result;
-      }
-      return replacementMethod;
-    }
-    class Person2 {
-      name: string;
-      constructor(name: string) {
-        this.name = name;
-      }
-      @loggedMethod
-      greet() {
-        console.log(`Hello, my name is ${this.name}.`);
-      }
-    }
-    const p2 = new Person2("Ron");
-    p2.greet();
-    // 3. method decorators 2
-    function bound(
-      originalMethod: Function,
-      context: ClassMethodDecoratorContext
-    ) {
-      console.log("inside of bound decorator");
-      const methodName = context.name;
-      if (context.private) {
-        throw new Error(
-          `'bound' cannot decorate private properties like ${
-            methodName as string
-          }.`
-        );
-      }
-      context.addInitializer(function () {
-        // this[methodName] = this[methodName].bind(this); // this is unknown
-        console.log("inside of bound decorator initializer", this);
-        const thisAsAny = this as any;
-        thisAsAny[methodName] = thisAsAny[methodName].bind(this);
-      });
-    }
-    console.log("before class declaration");
+  //   function loggedMethod(
+  //     originalMethod: Function,
+  //     _context: ClassMethodDecoratorContext
+  //   ) {
+  //     function replacementMethod(this: any, ...args: any[]) {
+  //       console.log("LOG: Entering method.", _context);
+  //       const result = originalMethod.call(this, ...args);
+  //       console.log("LOG: Exiting method.");
+  //       return result;
+  //     }
+  //     return replacementMethod;
+  //   }
+  //   class Person2 {
+  //     name: string;
+  //     constructor(name: string) {
+  //       this.name = name;
+  //     }
+  //     @loggedMethod
+  //     greet() {
+  //       console.log(`Hello, my name is ${this.name}.`);
+  //     }
+  //   }
+  //   const p2 = new Person2("Ron");
+  //   p2.greet();
+  //   // 3. method decorators 2
+  //   function bound(
+  //     originalMethod: Function,
+  //     context: ClassMethodDecoratorContext
+  //   ) {
+  //     console.log("inside of bound decorator");
+  //     const methodName = context.name;
+  //     if (context.private) {
+  //       throw new Error(
+  //         `'bound' cannot decorate private properties like ${
+  //           methodName as string
+  //         }.`
+  //       );
+  //     }
+  //     context.addInitializer(function () {
+  //       // this[methodName] = this[methodName].bind(this); // this is unknown
+  //       console.log("inside of bound decorator initializer", this);
+  //       const thisAsAny = this as any;
+  //       thisAsAny[methodName] = thisAsAny[methodName].bind(this);
+  //     });
+  //   }
+  //   console.log("before class declaration");
 
-    class Person3 {
-      name: string;
-      constructor(name: string) {
-        console.log("ctor");
-        this.name = name;
-      }
+  //   class Person3 {
+  //     name: string;
+  //     constructor(name: string) {
+  //       console.log("ctor");
+  //       this.name = name;
+  //     }
 
-      @bound
-      @loggedMethod
-      greet() {
-        console.log(`!!!Hello!!! My name is ${this?.name}.`);
-      }
-    }
-    console.log("after class declaration");
-    // same as
-    // class Person4 {
-    //   name: string;
-    //   constructor(name: string) {
-    //     this.name = name;
-    //   }
-    //   greet = () => {
-    //     console.log(`Hello, my name is ${this.name}.`);
-    //   };
-    // }
-    // This code is written to ensure that this isn’t re-bound if greet is called as a stand-alone function or passed as a callback.
-    console.log("before new Person3");
+  //     @bound
+  //     @loggedMethod
+  //     greet() {
+  //       console.log(`!!!Hello!!! My name is ${this?.name}.`);
+  //     }
+  //   }
+  //   console.log("after class declaration");
+  //   // same as
+  //   // class Person4 {
+  //   //   name: string;
+  //   //   constructor(name: string) {
+  //   //     this.name = name;
+  //   //   }
+  //   //   greet = () => {
+  //   //     console.log(`Hello, my name is ${this.name}.`);
+  //   //   };
+  //   // }
+  //   // This code is written to ensure that this isn’t re-bound if greet is called as a stand-alone function or passed as a callback.
+  //   console.log("before new Person3");
 
-    const p3 = new Person3("Ron");
-    const greet = p3.greet;
-    // Works!
-    console.log("calling method");
-    greet();
-    greet();
-    setTimeout(p3.greet, 1000);
-  }
-  staget3Decorators();
+  //   const p3 = new Person3("Ron");
+  //   const greet = p3.greet;
+  //   // Works!
+  //   console.log("calling method");
+  //   greet();
+  //   greet();
+  //   setTimeout(p3.greet, 1000);
+  // }
+  // staget3Decorators();
 }
 lesson7();

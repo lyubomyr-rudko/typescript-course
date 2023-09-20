@@ -1,22 +1,22 @@
 // Use double assertion
 function exercise35() {
-  // TODO:Create two types: TPoint2D and TPoint3D
-  interface TPoint2D {
-    /* TODO: add definition for x and y props for coordinates */
+  // TODO:Create two types: TUser and TProduct
+  interface TUser {
+    /* TODO: add definition for user name, title and email */
   }
-  interface TPoint3D {
-    /* TODO: add definition for x, y and z props for coordinates */
+  interface TProduct {
+    /* TODO: add definition for product title, price and quantity */
   }
 
-  let point2D: TPoint2D = { x: 1, y: 2 };
-  let point3D: TPoint3D = { x: 1, y: 2, z: 3 };
+  let user: TUser = {};
+  let product: TProduct = {};
 
   // TODO: fix the error by adding double assertion
-  // point3D = point2D;
+  product = user;
 }
 exercise35();
 
-// use this parameter type annotation to fix the error in this code
+// Use this parameter type annotation to fix the error in this code
 function exercise36() {
   // Note: this object does not have a name property
   // but the toString function expects it to be there, and there is no type check
@@ -35,25 +35,20 @@ function exercise36() {
     // return `${this.name}, ${this.age}, ${this.role}`;
   }
   data.toString = toString;
-
-  console.log(data.toString());
+  // TODO: run the code and observe the error
   console.log(data + "");
+  console.log(data.toString());
+  // TODO: add required properties to the data object, fixing the error
 }
 exercise36();
 
-// EXERCISE (pause the video and do): fix the following code, use generic constraints
+// Use generic constraints
 function exercise37() {
   interface IPerson {
     firstName: string;
     lastName: string;
   }
-  // // TODO: add generic constraints to enforce type checking, add return type annotation
-  // function addGreeting<T>(obj: T) {
-  //   // TODO: implement the method sayHello that returns a greeting string
-  //   // TODO: in the function generate variable fullName = `${obj.firstName} ${obj.lastName}`;
-  //   // TODO: use fullName variable to generate a greeting string, for example: "Hello Joe Smith"
-  //   // TODO: make sure the obj is not modified, and new object is returned
-  // }
+
   // TODO: add generic constraints to enforce type checking, add return type annotation
   function addGreeting<T>(obj: T) {
     // TODO: implement the method sayHello that returns a greeting string
@@ -72,3 +67,45 @@ function exercise37() {
   // console.log(person.sayHello());
 }
 exercise37();
+
+// Use experimental decorators
+function exercise38() {
+  // TODO: implement decorator to print call count of the function
+  function count() {
+    // add params here
+    let callCount = 0;
+    // TODO: implement decorator
+    // TODO: before calling the function increment callCount
+    // TODO: after calling the function print callCount
+  }
+  // TODO: implement decorator to print execution time of the function
+  function time() {
+    // add params here
+    // TODO: before calling the function get current time
+    // TODO: after calling the function get current time
+    // TODO: print the difference between the two times after calling the function
+  }
+
+  class Calculation {
+    // TODO: add both decorators to the following method
+    static add(a: number, b: number) {
+      return a + b;
+    }
+  }
+  // TODO: create instance of Calculation class and call add method
+}
+exercise38();
+
+// Use 2023 decorators (Stage 3 decorator)
+function exercise39() {
+  // TODO: implement decorator to print call count of the function
+  // TODO: implement decorator to print execution time of the function
+  class Calculation {
+    // TODO: add both decorators to the following method
+    static add(a: number, b: number) {
+      return a + b;
+    }
+  }
+  // TODO: create instance of Calculation class and call add method
+}
+exercise39();

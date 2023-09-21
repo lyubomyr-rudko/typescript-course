@@ -4,15 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "npx tsc --watch"
+    "watch": "npx tsc --watch",
+    "dev": "npx nodemon ./src/lesson7-homework.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "typescript": "^5.2.2"
-  },
   "devDependencies": {
-    "@types/node": "^20.5.9"
+    "@types/node": "^20.5.9",
+    "typescript": "^5.2.2"
   }
 }

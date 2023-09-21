@@ -136,18 +136,25 @@ function exercise34() {
         "Jane": [78, 88, 95],
         "Bob": [92, 88, 76],
     };
+    // TODO: add caching for the average grade calculation to the calculateAverageGrade function
+    const averageCache = {};
     // TODO: Implement function to calculate the average grade for a student
     function calculateAverageGrade(studentName) {
-        const studentFound = false;
-        if (!studentFound) {
-            let averageGrade = 0;
-            for (let i = 0; i < studentGrades[studentName].length; i++) {
-                averageGrade += studentGrades[studentName][i];
-            }
-            return averageGrade / studentGrades[studentName].length;
+        if (averageCache[studentName]) {
+            return averageCache[studentName];
         }
         else {
-            return "Student not found";
+            const studentFound = false;
+            if (!studentFound) {
+                let averageGrade = 0;
+                for (let i = 0; i < studentGrades[studentName].length; i++) {
+                    averageGrade += studentGrades[studentName][i];
+                }
+                return averageGrade / studentGrades[studentName].length;
+            }
+            else {
+                return "Student not found";
+            }
         }
     }
     // TODO: Iterate through the dictionary and display each student's average grade
@@ -155,6 +162,5 @@ function exercise34() {
         const averageGrade = calculateAverageGrade(studentName);
         console.log(`${studentName}: ${averageGrade}`);
     }
-    // TODO: add caching for the average grade calculation to the calculateAverageGrade function
 }
 exercise34();

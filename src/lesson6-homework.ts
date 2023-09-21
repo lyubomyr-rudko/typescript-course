@@ -206,17 +206,24 @@ function exercise34() {
     "Bob": [92, 88, 76],
   };
 
+  // TODO: add caching for the average grade calculation to the calculateAverageGrade function
+   const averageCache: { [key: string]: number } = {};
+
   // TODO: Implement function to calculate the average grade for a student
   function calculateAverageGrade(studentName: string): number | string {
-    const studentFound = false;
-    if (!studentFound) {
-      let averageGrade = 0;
-      for (let i = 0; i < studentGrades[studentName].length; i++) {
-        averageGrade += studentGrades[studentName][i]
-      }
-      return averageGrade / studentGrades[studentName].length;
+    if (averageCache[studentName]) {
+      return averageCache[studentName];
     } else {
-      return "Student not found";
+      const studentFound = false;
+      if (!studentFound) {
+        let averageGrade = 0;
+        for (let i = 0; i < studentGrades[studentName].length; i++) {
+          averageGrade += studentGrades[studentName][i]
+        }
+        return averageGrade / studentGrades[studentName].length;
+      } else {
+        return "Student not found";
+      }
     }
   }
 
@@ -225,7 +232,5 @@ function exercise34() {
     const averageGrade = calculateAverageGrade(studentName);
     console.log(`${studentName}: ${averageGrade}`);
   }
-
-  // TODO: add caching for the average grade calculation to the calculateAverageGrade function
 }
 exercise34();

@@ -1,39 +1,5 @@
 "use strict";
 // ********* Lesson 7 *********
-var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
-    function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
-    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
-    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
-    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
-    var _, done = false;
-    for (var i = decorators.length - 1; i >= 0; i--) {
-        var context = {};
-        for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
-        for (var p in contextIn.access) context.access[p] = contextIn.access[p];
-        context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
-        var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
-        if (kind === "accessor") {
-            if (result === void 0) continue;
-            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
-            if (_ = accept(result.get)) descriptor.get = _;
-            if (_ = accept(result.set)) descriptor.set = _;
-            if (_ = accept(result.init)) initializers.unshift(_);
-        }
-        else if (_ = accept(result)) {
-            if (kind === "field") initializers.unshift(_);
-            else descriptor[key] = _;
-        }
-    }
-    if (target) Object.defineProperty(target, contextIn.name, descriptor);
-    done = true;
-};
-var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
-    var useValue = arguments.length > 2;
-    for (var i = 0; i < initializers.length; i++) {
-        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
-    }
-    return useValue ? value : void 0;
-};
 // Double assertions
 function doubleAssertions() {
     // same as
@@ -81,6 +47,7 @@ function thisFunctionParameter() {
     // OK
     toStringGood.call(data); // Joe, 30, Developer
     data.toString(); // Joe, 30, Developer
+    " " + data; // Joe, 30, Developer
     const badData = {
         name: "Joe",
         toString: toStringGood,
@@ -335,6 +302,38 @@ genericConstraints();
 //   }
 //   const v = new Vehicle();
 //   v.move(100);
+// // // Decorators in React
+// // // decorator/navbar.js
+// // import React, {Component} from "react";
+// // export default function navBar() {
+// //     return function(Child) {
+// //       return class extends Component {
+// //          constructor(props) {
+// //            super(props);
+// //          }
+// //          render() {
+// //            return (
+// //              <div>
+// //                <h2>Hello this is the navigation bar</h2>
+// //                <Child />
+// //              </div>
+// //            )
+// //         }
+// //      }
+// //  }
+//
+// // // anotherComponent.js
+// // import React, {Component} from "react";
+// // import navBar from "./decorator/navBar";
+// // @navBar()
+// // class AnotherComponent extends Component {
+// //   render() {
+// //    return(
+// //      <div>
+// //        <p>Hello World</p>
+// //       </div>
+// //    )}
+// // }
 //   // more resources
 //   // https://dev.to/danywalls/decorators-in-typescript-with-example-part-1-m0f
 //   // https://dev.to/danywalls/using-property-decorators-in-typescript-with-a-real-example-44e
@@ -342,124 +341,102 @@ genericConstraints();
 // decorators();
 // typescript5 stage3 decorators
 function staget3Decorators() {
-    // 1. class decorators
-    let Manager = (() => {
-        let _classDecorators = [printDecoratorData];
-        let _classDescriptor;
-        let _classExtraInitializers = [];
-        let _classThis;
-        var Manager = class {
-            static { _classThis = this; }
-            static {
-                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-                __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
-                Manager = _classThis = _classDescriptor.value;
-                if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
-                __runInitializers(_classThis, _classExtraInitializers);
-            }
-            task = "Simple task";
-            project = "Simple project";
-            constructor() {
-                console.log("Initializing the Manager class");
-            }
-        };
-        return Manager = _classThis;
-    })();
-    // const manager = new Manager ();
-    // console. log (manager)
-    function printDecoratorData(value, context) {
-        console.log("value: ", value);
-        console.log(context);
-        console.log(context);
-        context.addInitializer(() => {
-            console.log("Initialized class " + context.name);
-        });
-    }
-    class Person {
-        name;
-        constructor(name) {
-            this.name = name;
-        }
-        greet() {
-            console.log(`Hello, my name is ${this.name}.`);
-        }
-    }
-    const p = new Person("Ron");
-    p.greet();
-    function loggedMethod(originalMethod, _context) {
-        function replacementMethod(...args) {
-            console.log("LOG: Entering method.");
-            const result = originalMethod.call(this, ...args);
-            console.log("LOG: Exiting method.");
-            return result;
-        }
-        return replacementMethod;
-    }
-    let Person2 = (() => {
-        let _instanceExtraInitializers = [];
-        let _greet_decorators;
-        return class Person2 {
-            static {
-                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-                _greet_decorators = [loggedMethod];
-                __esDecorate(this, null, _greet_decorators, { kind: "method", name: "greet", static: false, private: false, access: { has: obj => "greet" in obj, get: obj => obj.greet }, metadata: _metadata }, null, _instanceExtraInitializers);
-                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
-            }
-            name = (__runInitializers(this, _instanceExtraInitializers), void 0);
-            constructor(name) {
-                this.name = name;
-            }
-            greet() {
-                console.log(`Hello, my name is ${this.name}.`);
-            }
-        };
-    })();
-    const p2 = new Person2("Ron");
-    p2.greet();
-    function bound(originalMethod, context) {
-        const methodName = context.name;
-        if (context.private) {
-            throw new Error(`'bound' cannot decorate private properties like ${methodName}.`);
-        }
-        context.addInitializer(function () {
-            // this[methodName] = this[methodName].bind(this); // this is unknown
-            const thisAsAny = this;
-            thisAsAny[methodName] = thisAsAny[methodName].bind(this);
-        });
-    }
-    let Person3 = (() => {
-        let _instanceExtraInitializers = [];
-        let _greet_decorators;
-        return class Person3 {
-            static {
-                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-                _greet_decorators = [bound, loggedMethod];
-                __esDecorate(this, null, _greet_decorators, { kind: "method", name: "greet", static: false, private: false, access: { has: obj => "greet" in obj, get: obj => obj.greet }, metadata: _metadata }, null, _instanceExtraInitializers);
-                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
-            }
-            name = (__runInitializers(this, _instanceExtraInitializers), void 0);
-            constructor(name) {
-                this.name = name;
-            }
-            greet() {
-                console.log(`Hello!!! My name is ${this.name}.`);
-            }
-        };
-    })();
-    // same as
-    class Person4 {
-        name;
-        constructor(name) {
-            this.name = name;
-        }
-        greet = () => {
-            console.log(`Hello, my name is ${this.name}.`);
-        };
-    }
-    // This code is written to ensure that this isn’t re-bound if greet is called as a stand-alone function or passed as a callback.
-    const p3 = new Person3("Ron");
-    const greet = p3.greet;
-    // Works!
-    greet();
+    // // 1. class decorators
+    // @printDecoratorData
+    // class Manager {
+    //   task: string = "Simple task";
+    //   project: string = "Simple project";
+    //   constructor() {
+    //     console.log("Initializing the Manager class");
+    //   }
+    // }
+    // // const manager = new Manager ();
+    // // console. log (manager)
+    // function printDecoratorData(value: Function, context: ClassDecoratorContext) {
+    //   console.log("value: ", value);
+    //   console.log(context);
+    //   console.log(context);
+    //   context.addInitializer(() => {
+    //     console.log("Initialized class " + context.name);
+    //   });
+    // }
+    // class Person {
+    //   name: string;
+    //   constructor(name: string) {
+    //     this.name = name;
+    //   }
+    //   greet() {
+    //     console.log(`Hello, my name is ${this.name}.`);
+    //   }
+    //   // greet() {
+    //   //   console.log("LOG: Entering method.");
+    //   //   console.log(`Hello, my name is ${this.name}.`);
+    //   //   console.log("LOG: Exiting method.");
+    //   // }
+    // }
+    // const p = new Person("Ron");
+    // p.greet();
+    // function loggedMethod(originalMethod: Function, _context: any) {
+    //   function replacementMethod(this: any, ...args: any[]) {
+    //     console.log("LOG: Entering method.");
+    //     const result = originalMethod.call(this, ...args);
+    //     console.log("LOG: Exiting method.");
+    //     return result;
+    //   }
+    //   return replacementMethod;
+    // }
+    // class Person2 {
+    //   name: string;
+    //   constructor(name: string) {
+    //     this.name = name;
+    //   }
+    //   @loggedMethod
+    //   greet() {
+    //     console.log(`Hello, my name is ${this.name}.`);
+    //   }
+    // }
+    // const p2 = new Person2("Ron");
+    // p2.greet();
+    // function bound(originalMethod: any, context: ClassMethodDecoratorContext) {
+    //   const methodName = context.name;
+    //   if (context.private) {
+    //     throw new Error(
+    //       `'bound' cannot decorate private properties like ${
+    //         methodName as string
+    //       }.`
+    //     );
+    //   }
+    //   context.addInitializer(function () {
+    //     // this[methodName] = this[methodName].bind(this); // this is unknown
+    //     const thisAsAny = this as any;
+    //     thisAsAny[methodName] = thisAsAny[methodName].bind(this);
+    //   });
+    // }
+    // class Person3 {
+    //   name: string;
+    //   constructor(name: string) {
+    //     this.name = name;
+    //   }
+    //   @bound
+    //   @loggedMethod
+    //   greet() {
+    //     console.log(`Hello!!! My name is ${this.name}.`);
+    //   }
+    // }
+    // // same as
+    // class Person4 {
+    //   name: string;
+    //   constructor(name: string) {
+    //     this.name = name;
+    //   }
+    //   greet = () => {
+    //     console.log(`Hello, my name is ${this.name}.`);
+    //   };
+    // }
+    // // This code is written to ensure that this isn’t re-bound if greet is called as a stand-alone function or passed as a callback.
+    // const p3 = new Person3("Ron");
+    // const greet = p3.greet;
+    // // Works!
+    // greet();
 }
 staget3Decorators();

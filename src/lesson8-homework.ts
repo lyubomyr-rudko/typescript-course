@@ -375,7 +375,7 @@ function exerciseExtra1() {
         return true;
     }
 
-    console.assert(areAnagrams('listen', 'silen') === true);
+    console.assert(areAnagrams('listen', 'silent') === true);
     console.assert(areAnagrams('abc', 'cba') === true);
     console.assert(areAnagrams('abc', 'cbd') === false);
 

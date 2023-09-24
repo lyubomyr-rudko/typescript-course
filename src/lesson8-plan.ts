@@ -10,7 +10,7 @@ function temporalUncertainty() {
       .fill(null)
       .map(() => {
         // return greetingsText.split('').join('-');
-        return greetingsText?.split("").join("-");
+        // return greetingsText?.split("").join("-");
       });
 
     // map might execute asyncronously - same as setTimeout
@@ -425,7 +425,7 @@ function conditionalTypes() {
   type TUndefinedTypeName = TypeName<undefined>; // 'undefined'
   const undef = getTypeName(undefined); // 'undefined'
   type TFunctionTypeName = TypeName<() => void>; // 'function'
-  const func = getTypeName(() => {}); // 'function'
+  const func = getTypeName(() => { }); // 'function'
   type TSymbolTypeName = TypeName<symbol>; // 'symbol'
   const sym = getTypeName(Symbol("abc")); // 'symbol'
   type TBigIntTypeName = TypeName<bigint>; // 'bigint'
@@ -576,8 +576,8 @@ function inferKeywordAndReturnTypeUtility() {
     ? T // special case for `null | undefined` when not in `--strictNullChecks` mode
     : T extends object & { then(onfulfilled: infer F, ...args: infer _): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
     ? F extends (value: infer V, ...args: infer _) => any // if the argument to `then` is callable, extracts the first argument
-      ? Awaited<V> // recursively unwrap the value
-      : never // the argument to `then` was not callable
+    ? Awaited<V> // recursively unwrap the value
+    : never // the argument to `then` was not callable
     : T; // non-object or non-thenable
 
   /**

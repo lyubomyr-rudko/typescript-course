@@ -67,6 +67,7 @@ function exercise37() {
   // console.log(person.sayHello());
 }
 exercise37();
+type T = ReturnType<any>
 
 // Use experimental decorators
 function exercise38() {

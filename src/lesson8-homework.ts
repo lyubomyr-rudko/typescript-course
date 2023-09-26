@@ -327,7 +327,9 @@ exercise45();
 // Use infer keyword
 function exercise46() {
   // + create a type that extracts the type of the first argument of a function
-  type FirstParameter<T> = T extends infer firstName ? firstName : never;
+  type FirstParameter<T> = T extends (arg1: infer R, ...args: any) => any
+    ? R
+    : never;
 
   function createUser(firstName: string, lastName: string, age: number) {
     const id = (Math.random() * 100000).toString();
@@ -364,6 +366,6 @@ function exerciseExtra1() {
   console.assert(areAnagrams('abc', 'cbd') === false);
 
   // HINT: consider exercise33 for code reuse ideas
-  // I
+  // I assumed, that the solution of this task with Dictionaries is much longer and still includes methods I used in my way.
 }
 exerciseExtra1();

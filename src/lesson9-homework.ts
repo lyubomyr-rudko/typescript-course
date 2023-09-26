@@ -1,5 +1,3 @@
-import { NamedTupleMember } from 'typescript';
-
 // Use mappping types
 function exercise47() {
   // implement mapped type that takes two types T and K

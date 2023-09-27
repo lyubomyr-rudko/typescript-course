@@ -102,7 +102,7 @@ function mappedTypesModifiers() {
 
   // usage example
   class State<T> {
-    constructor(private state: T) {}
+    constructor(private state: T) { }
     updateState(newState: T) {
       // TODO: use Partial
       this.state = { ...this.state, ...newState };

@@ -78,7 +78,7 @@ function exercise51() {
     [key: string]: TPoint[]
   };
 
-  const shapes: TShapes = {
+  const shapes = {
     circle: [
       [1, 2, 3],
       [4, 5, 6],
@@ -88,7 +88,7 @@ function exercise51() {
       [1, 2, 3],
       [4, 5, 6],
     ],
-  };
+  } satisfies TShapes;
 
   // TODO: create a function that takes a list points and prints them into console
   function drawShape(points: TPoint[]):void {

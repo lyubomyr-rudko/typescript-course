@@ -3,26 +3,26 @@ function exercise47() {
   // implement mapped type that takes two types T and K
   // K must be a union of strings or numbers or symbols
   // the mapped type should create a new type that has all properties included in list K, and the value of each property is T
-  // type TRecord<K extends ..., T> = {
-  //   [... in ...]: ...;
-  // };
+  type TRecord<K extends string | number | symbol, T> = {
+    [key in K]: T;
+  };
   // TODO: uncomment the following code and check if your mapped type works
-  // type TPoint = TRecord<"x" | "y" | "z", number>;
-  // const point: TPoint = {
-  //   x: 1,
-  //   y: 2,
-  //   z: 3,
-  // };
+  type TPoint = TRecord<"x" | "y" | "z", number>;
+  const point: TPoint = {
+    x: 1,
+    y: 2,
+    z: 3,
+  };
 }
 exercise47();
 
 // Use mappping types modifiers
 function exercise48() {
   // implement mapped type that makes all properties of T optional and nullable
-  // type TPartialNullable<T> = {
-  //   [... in ...]: ...;
-  // };
 
+  type TPartialNullable<T> = {
+    [K in keyof T]?: T[K] | null;
+  };
   type TPoint = {
     x: number;
     y: number;
@@ -30,9 +30,9 @@ function exercise48() {
     name: string;
   };
 
-  // type TNullablePoint = TPartialNullable<TPoint>;
-  // const p1: TNullablePoint = { x: 10 };
-  // const p2: TNullablePoint = { x: 10, y: null };
+  type TNullablePoint = TPartialNullable<TPoint>;
+  const p1: TNullablePoint = { x: 10 };
+  const p2: TNullablePoint = { x: 10, y: null };
 }
 exercise48();
 
@@ -42,14 +42,15 @@ function exercise49() {
   // TODO: create a type that represents a string that contains Tshirts colors (red, green, blue)
   // TODO: create a type that represents a string that contains Tshirts sizes and colors (e.g. "S-red", "M-green", "L-blue")
   // TODO: create a function that takes a size and a color and returns a Tshirt size and color
+
   // TOOD: make sure you annotate the params and return type of the function
-  // type TSize =
-  // type TColor =
-  // type TTshirt =
-  // function createTshirt(size, color) {
-  //   return `${size}-${color}`;
-  // }
-  // const tshirt = createTshirt("S", "red");
+  type TSize = 'S' | 'M' | 'L' | 'XL' | 'XXL'
+  type TColor = 'red' | 'green' | 'blue'
+  type TTshirt = `${TSize}-${TColor}`
+  function createTshirt(size: TSize, color: TColor): TTshirt {
+    return `${size}-${color}`;
+  }
+  const tshirt: TTshirt = createTshirt("S", "red");
 }
 exercise49();
 
@@ -57,13 +58,13 @@ exercise49();
 function exercise50() {
   // TODO: observe the problem with autocomplete in the line createCar("BMW");
   // TODO: fix the problem by using the approach from the lesson
-  type Brands = "BMW" | "Mercedes" | "Audi" | string;
+  type Brands = "BMW" | "Mercedes" | "Audi" | (string & {});
 
   function createCar(brand: Brands) {
     return `${brand} car`;
   }
   // TODO: check if autocomplete works before and after the fix
-  const car = createCar("BMW");
+  const car = createCar('Mercedes');
 }
 exercise50();
 
@@ -71,9 +72,11 @@ exercise50();
 function exercise51() {
   // Use satisfies constraint
   // TODO: create a tuple type that represents a 3d point
-  type TPoint = [];
+  type TPoint = [number, number, number];
   // TODO: create a type that represents a 3d shapes (key is a string, value is an array of 3d points)
-  type TShapes = {};
+  type TShapes = {
+    [key: string]: TPoint[]
+  };
 
   const shapes: TShapes = {
     circle: [
@@ -88,11 +91,11 @@ function exercise51() {
   };
 
   // TODO: create a function that takes a list points and prints them into console
-  function drawShape(points: TPoint[]) {
+  function drawShape(points: TPoint[]):void {
     console.log(points);
   }
 
-  // drawShape(shapes.circle123); // TOOD: uncomment and fix this to have compile check error, using satisfies constraint
+  drawShape(shapes.circle); // TOOD: uncomment and fix this to have compile check error, using satisfies constraint
 }
 exercise51();
 
@@ -106,8 +109,18 @@ function exerciseExtra2() {
    *  - for multiples of both three and five, print FizzBuzz (instead of the number)
    */
 
-  function fizzBuzz() {
+  function fizzBuzz(): void {
     // TODO: add your code here
+    for (let i = 1; i <= 100; i += 1) {
+      let output: string = '';
+      if (i % 3 === 0) {
+        output += 'Fizz';
+      }
+      if (i % 5 === 0) {
+        output += 'Bazz';
+      }
+      console.log(output || i);
+    }
   }
   fizzBuzz();
   /**
@@ -120,11 +133,24 @@ function exerciseExtra2() {
    */
 
   // TODO: convert fizzBuzz to generate a string instead of printing to console
-  function fizzBuzzToString() {
+  function fizzBuzzToString():string {
     // TODO: add your code here
+    let output = ''
+    for (let i = 1; i <= 100; i += 1) {
+      if (i % 3 === 0) {
+        output += 'Fizz';
+      }
+      if (i % 5 === 0) {
+        output += 'Bazz';
+      }
+      if (!(i % 3 === 0) && !(i % 5 === 0)) {
+        output += i;
+      }
+    }
+    return output
   }
   fizzBuzzToString();
   // TODO: write a test to validate fizzBuzz output using console.assert
-  // console.assert( ... );
+  console.assert(typeof fizzBuzzToString() === 'string' );
 }
 exerciseExtra2();

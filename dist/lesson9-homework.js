@@ -1,46 +1,28 @@
 "use strict";
 // Use mappping types
 function exercise47() {
-    // implement mapped type that takes two types T and K
-    // K must be a union of strings or numbers or symbols
-    // the mapped type should create a new type that has all properties included in list K, and the value of each property is T
-    // type TRecord<K extends ..., T> = {
-    //   [... in ...]: ...;
-    // };
-    // TODO: uncomment the following code and check if your mapped type works
-    // type TPoint = TRecord<"x" | "y" | "z", number>;
-    // const point: TPoint = {
-    //   x: 1,
-    //   y: 2,
-    //   z: 3,
-    // };
+    const point = {
+        x: 1,
+        y: 2,
+        z: 3,
+    };
 }
 exercise47();
 // Use mappping types modifiers
 function exercise48() {
-    // implement mapped type that makes all properties of T optional and nullable
-    // type TPartialNullable<T> = {
-    //   [... in ...]: ...;
-    // };
-    // type TNullablePoint = TPartialNullable<TPoint>;
-    // const p1: TNullablePoint = { x: 10 };
-    // const p2: TNullablePoint = { x: 10, y: null };
+    const p1 = { x: 10 };
+    const p2 = { x: 10, y: null };
 }
 exercise48();
 // Template Literal Type
 function exercise49() {
-    // TODO: create a type that represents a string that contains Tshirts sizes (S, M, L, XL, XXL)
-    // TODO: create a type that represents a string that contains Tshirts colors (red, green, blue)
-    // TODO: create a type that represents a string that contains Tshirts sizes and colors (e.g. "S-red", "M-green", "L-blue")
     // TODO: create a function that takes a size and a color and returns a Tshirt size and color
     // TOOD: make sure you annotate the params and return type of the function
-    // type TSize =
-    // type TColor =
-    // type TTshirt =
-    // function createTshirt(size, color) {
-    //   return `${size}-${color}`;
-    // }
-    // const tshirt = createTshirt("S", "red");
+    function createTshirt(size, color) {
+        return `${size}-${color}`;
+    }
+    const tshirt = createTshirt("S", "red");
+    console.log(tshirt);
 }
 exercise49();
 // Fix autocoplete problem for literal union types
@@ -50,6 +32,7 @@ function exercise50() {
     }
     // TODO: check if autocomplete works before and after the fix
     const car = createCar("BMW");
+    console.log(car);
 }
 exercise50();
 // Use satisfies constraint
@@ -69,7 +52,7 @@ function exercise51() {
     function drawShape(points) {
         console.log(points);
     }
-    // drawShape(shapes.circle123); // TOOD: uncomment and fix this to have compile check error, using satisfies constraint
+    drawShape(shapes.circle123); // TOOD: uncomment and fix this to have compile check error, using satisfies constraint
 }
 exercise51();
 // This is an algorithmic problem - use your algorithmic skills and typescript knowledge to solve it
@@ -93,7 +76,7 @@ function exerciseExtra2() {
      * Buzz
      * ...
      */
-    // TODO: convert fizzBuzz to generate a string instead of printing to console
+    // TODO: convert fizzBuzz function to return a string output instead of printing to console
     function fizzBuzzToString() {
         // TODO: add your code here
     }

@@ -39,7 +39,7 @@ function exercise40() {
         console.log(fetchResult.length);
         userNames.forEach((name) => {
             // TOOD: explain why type narrowing does not work here and fix the error (and remove any type annotations)
-            let result = localFetchResult.find((obj) => obj.name === name);
+            let result = fetchResult.find((obj) => obj.name === name);
             if (result) {
                 console.log(result.data);
             }
@@ -135,7 +135,7 @@ function exercise41() {
     // TODO: create function that returns coordinates of the user copany address,
     // TODO: set the return type of that function using typeof operator
     function getCoordinates() {
-        return user.company.address.coordinates;
+        return null;
     }
     console.log(getCoordinates());
 }
@@ -162,7 +162,7 @@ function exercise42() {
                     title: "user photo 1",
                 },
                 {
-                    utl: "https://i.dummyjson.com/data/products/1/2.jpg",
+                    url: "https://i.dummyjson.com/data/products/1/2.jpg",
                     title: "user photo 2",
                 },
             ],

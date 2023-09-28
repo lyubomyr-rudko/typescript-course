@@ -42,7 +42,6 @@ function templateLiteralType() {
     const name = "John";
     const greeting = `Hello ${name}`;
     const greeting2 = "Hello John";
-    const width = 100;
     const width2 = "100px";
     const width3 = "100em";
     function drawShapeWithColor(shapeWithColor) {
@@ -57,7 +56,7 @@ function fixAutocompleteProblemForLiteralUnionTypes() {
     function drawRectangle(color) {
         console.log(color);
     }
-    drawRectangle("redd"); // no autocomplete
+    drawRectangle("blue"); // no autocomplete
     function drawRectangle2(color) {
         console.log(color);
     }
@@ -66,12 +65,14 @@ function fixAutocompleteProblemForLiteralUnionTypes() {
 fixAutocompleteProblemForLiteralUnionTypes();
 // Satisfies constraint
 function satisfiesConstraint() {
+    // same as
+    // type Theme = Record<string, Color>;
     const theme = {
         primary: "green",
         secondary: [0, 255, 0],
         danger: "red",
     };
-    const [r, g, b] = theme.secondary123; // no error checking
+    const [r, g, b] = theme.secondary555; // no error checking
     const theme2 = {
         primary: "green",
         secondary: [0, 255, 0],
@@ -81,3 +82,24 @@ function satisfiesConstraint() {
     const _temp = theme2;
 }
 satisfiesConstraint();
+// Utility Property key type
+function propertyKeyType() {
+    // only string, number and symbol can be used as property keys
+    const str = "str";
+    const num = 1;
+    const sym = Symbol();
+    const obj = {
+        [str]: 1,
+        [num]: 2,
+        [sym]: 3,
+    };
+    const objAsKe = {};
+    const obj2 = {
+    // [objAsKe]: 1, // inva
+    };
+    // type PropertyKey = string | number | symbol;
+    const str2 = "str";
+    const num2 = 1;
+    const sym2 = Symbol();
+    // const obj3: PropertyKey = {}; // invalid
+}

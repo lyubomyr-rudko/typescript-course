@@ -53,7 +53,7 @@ function exercise40() {
 
     userNames.forEach((name) => {
       // TOOD: explain why type narrowing does not work here and fix the error (and remove any type annotations)
-        let result = localFetchResult.find((obj: any) => obj.name === name);
+      let result = fetchResult.find((obj: any) => obj.name === name);
 
         if (result) {
           console.log(result.data);
@@ -152,8 +152,8 @@ function exercise41() {
 
   // TODO: create function that returns coordinates of the user copany address,
   // TODO: set the return type of that function using typeof operator
-  function getCoordinates(): typeof user.company.address.coordinates {
-    return user.company.address.coordinates;
+  function getCoordinates(): any {
+    return null;
   }
   console.log(getCoordinates());
 }
@@ -181,7 +181,7 @@ function exercise42() {
           title: "user photo 1",
         },
         {
-          utl: "https://i.dummyjson.com/data/products/1/2.jpg",
+          url: "https://i.dummyjson.com/data/products/1/2.jpg",
           title: "user photo 2",
         },
       ],
@@ -207,29 +207,6 @@ function exercise42() {
     id: number;
     title: string;
     // TOOD: add remaining missing properties
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    images: { url: string; title: string; }[];
-    warehouse: {
-      address: {
-        address: string;
-        city: string;
-        coordinates: {
-          lat: number;
-          lng: number;
-        },
-        postalCode: string;
-        state: string;
-      },
-      name: string;
-      phoneNumbers: string[];
-    },
   };
 
   // TODO: create a type TCoodinates that represents coordinates, using lookup type
@@ -237,7 +214,7 @@ function exercise42() {
   type TCoordinates = typeof products[number]["warehouse"]["address"]["coordinates"];
 
   // TODO: fix/add type annotation for the function (remove any type annotation)
-  function printProductLocationCoordinates(coordinates: TCoordinates) {
+  function printProductLocationCoordinates(coordinates: TCoordinates | any) {
     // NOTE: this could be using google map api to display the location on the map, but for now just console.log
     console.log(coordinates.lat);
     console.log(coordinates.lng);

@@ -7,12 +7,15 @@ function exercise47() {
   //   [... in ...]: ...;
   // };
   // TODO: uncomment the following code and check if your mapped type works
-  // type TPoint = TRecord<"x" | "y" | "z", number>;
-  // const point: TPoint = {
-  //   x: 1,
-  //   y: 2,
-  //   z: 3,
-  // };
+  type TRecord<T> = {
+    [K in keyof T]: string | number | symbol;
+  };
+  type TPoint = TRecord<'x' | 'y' | 'z', number>;
+  const point: TPoint = {
+    x: 1,
+    y: 2,
+    z: 3,
+  };
 }
 exercise47();
 
@@ -57,13 +60,13 @@ exercise49();
 function exercise50() {
   // TODO: observe the problem with autocomplete in the line createCar("BMW");
   // TODO: fix the problem by using the approach from the lesson
-  type Brands = "BMW" | "Mercedes" | "Audi" | string;
+  type Brands = 'BMW' | 'Mercedes' | 'Audi' | string;
 
   function createCar(brand: Brands) {
     return `${brand} car`;
   }
   // TODO: check if autocomplete works before and after the fix
-  const car = createCar("BMW");
+  const car = createCar('BMW');
 }
 exercise50();
 

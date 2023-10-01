@@ -1,97 +1,164 @@
+import { type } from 'os';
+
 // string manipulation utilities type
 function exercise52() {
-  // TODO: write a utility type that for given object type T
-  // will create a new type with all properties plus methods to get and set properties
-  // plus methods to validate earch of the property
-  type TObjectWitName = {
-    name: string;
-  };
-  // TODO: declare utility type TGettersSettersValidators (union of TGetters, TSetters, TValidators)
-  // hint: TGetters for each of the property generates getXxxx method that returns property value
-  // hint: TSetters for each of the property generates setXxxx method that sets property value
-  // hint: TValidators for each of the property generates validateXxxx method that returns true if property value is valid
-  const obj = {
-    name: "point",
-  };
+    type TObjectWitName = Record<'name', string>;
 
-  // TODO: generate this type from TGettersSettersValidators using utility type
-  // type TObjectMethods = TGettersSettersValidators<typeof obj>;
-  // TODO: remvoe this declaration below and replac it with the one above
-  type TObjectMethods = {
-    getName(): string;
-    setName(name: string): void;
-    validateName(): boolean;
-  };
+    const obj: TObjectWitName = {
+        name: 'point',
+    };
 
-  const object: TObjectWitName & TObjectMethods = {
-    name: "point",
-    getName() {
-      return this.name;
-    },
-    setName(name: string) {
-      this.name = name;
-    },
-    validateName() {
-      return this.name.length > 0;
-    },
-  };
+    type TGetters<T> = {
+        [K in keyof T & string as `get${Capitalize<K>}`]: () => T[K];
+    };
+    type TSetters<T> = {
+        [K in keyof T & string as `set${Capitalize<K>}`]: (P: string) => void;
+    };
+    type TValidators<T> = {
+        [K in keyof T & string as `validate${Capitalize<K>}`]: () => boolean;
+    };
 
-  // TODO: add property age to object and check if you get type check errors
+    type TGettersSettersValidators<T> = TGetters<T> &
+        TSetters<T> &
+        TValidators<T>;
+
+    type TObjectMethods = TGettersSettersValidators<TObjectWitName>;
+
+    const object: TObjectWitName & TObjectMethods = {
+        name: 'point',
+        getName() {
+            return this.name;
+        },
+        setName(name) {
+            this.name = name;
+        },
+        validateName() {
+            return this.name.length > 0;
+        },
+    };
+
+    // type TGettersSettersValidators<T> =
+    //     | TGetters<T>
+    //     | TSetters<T>
+    //     | TValidators<T>;
+
+    // type GenerateMethods<T> = {
+    //     [K in keyof T]: T[K] extends (...arss: any) => any ? K : never;
+    // };
+    // type TObjectMethods<T> = {
+    //     [K in T]: T[K] extends (...arss: any) => any ? K : never;
+    // };
+
+    // const object: TObjectWitName &
+    //     TObjectMethods<TGettersSettersValidators<TObjectWitName>> = {
+    //     name: 'point',
+    //     getName() {
+    //         return this.name;
+    //     },
+    //     setName(name) {
+    //         this.name = name;
+    //     },
+    //     validateName() {
+    //         return this.name.length > 0;
+    //     },
+    // };
+    /*
+     ! take an ERRORS:
+     ! 1. Type '() => string' is not assignable to type '"getName"'.
+     ! 2. Type '(name: string) => void' is not assignable to type '"setName"'
+     ! 3. Type '() => boolean' is not assignable to type '"validateName"' */
+
+    console.log(object.getName());
+    console.log(object.validateName());
+    object.setName('');
+    console.log(object.getName());
+    console.log(object.validateName());
+    object.setName('name');
+    console.log(object.getName());
+    console.log(object.validateName());
 }
 exercise52();
 
 // enums
 function exercise53() {
-  // TODO: declare enum Color with values Red, Green, Blue
-  // TODO: assing Red: 1, Green: 2, Blue: 4
-  // enum Color {}
+    enum Color {
+        Red = 1,
+        Green = 2,
+        Blue = 4,
+    }
 
-  // TODO: declare a function that takes a color as a number and returns a string
-  // TODO: use bitmask bitwise AND operator to check if color has Red, Green, Blue
-  function getColor(color: number): string {
-    let result = "";
-    // TODO: check if red bit is set by bitwise & operator, if so - add "Red" to result
-    // TODO: check if green bit is set by bitwise & operator, if so - add "Green" to result
-    // TODO: check if blue bit is set by bitwise & operator, if so - add "Blue" to result
+    function getColor(color: number): string {
+        let result = '';
 
-    // TODO: explain how bitmask works
+        if ((color & Color.Red) === Color.Red) {
+            result += 'Red';
+        }
+        if ((color & Color.Green) === Color.Green) {
+            if (result) {
+                result += ', ';
+            }
+            result += 'Green';
+        }
+        if ((color & Color.Blue) === Color.Blue) {
+            if (result) {
+                result += ', ';
+            }
+            result += 'Blue';
+        }
 
-    return result;
-  }
+        return result;
+    }
 
-  // TODO: add test assertionsns using this table
-  // getColor(0) === """ (empty string, no color), bitmask ( 0 0 0 )
-  // getColor(1) === "Red" // bitmask ( 0 0 1 )
-  // getColor(2) === "Green // bitmask ( 0 1 0 )
-  // getColor(3) === "Green, Blue" // bitmask ( 0 1 1 )
-  // getColor(4) === "Blue" bitmask ( 1 0 0 )
-  // getColor(5) === "Red, Blue" // bitmask ( 1 0 1 )
-  // getColor(6) === "Red, Green" // bitmask   ( 1 1 0 )
-  // getColor(7) === "Red, Green, Blue" // bitmask ( 1 1 1 )
+    // TODO: add test assertionsns using this table
+    console.assert(getColor(0) === ''); // (empty string, no color), bitmask ( 0 0 0 )
+    console.assert(getColor(1) === 'Red'); // bitmask ( 0 0 1 )
+    console.assert(getColor(2) === 'Green'); // bitmask ( 0 1 0 )
+    console.assert(getColor(3) === 'Red, Green'); // bitmask ( 0 1 1 )
+    console.assert(getColor(4) === 'Blue'); // bitmask ( 1 0 0 )
+    console.assert(getColor(5) === 'Red, Blue'); // bitmask ( 1 0 1 )
+    console.assert(getColor(6) === 'Green, Blue'); // bitmask   ( 1 1 0 )
+    console.assert(getColor(7) === 'Red, Green, Blue'); // bitmask ( 1 1 1 )
 }
 exercise53();
 
 // This is an algorithmic problem - use your algorithmic skills and typescript knowledge to solve it
 function exerciseExtra3() {
-  // TODO: write a function to  merge two sorted arrays of numbers into one sorted array
-  function mergeSortedArrays(arr1: any, arr2: any): any {
-    return [];
-  }
+    function mergeSortedArrays(arr1: number[], arr2: number[]): number[] {
+        const mergedSortedArrays: number[] = [];
+        let i = 0;
+        let j = 0;
 
-  //   console.assert(
-  //     mergeSortedArrays([1, 2, 3], [4, 5, 6]).toString() ===
-  //       [1, 2, 3, 4, 5, 6].toString()
-  //   );
+        while (i < arr1.length || j < arr2.length) {
+            if (j >= arr2.length) {
+                mergedSortedArrays.push(arr1[i]);
+                i++;
+            } else if (i >= arr1.length) {
+                mergedSortedArrays.push(arr2[j]);
+                j++;
+            } else if (arr1[i] < arr2[j]) {
+                mergedSortedArrays.push(arr1[i]);
+                i++;
+            } else {
+                mergedSortedArrays.push(arr2[j]);
+                j++;
+            }
+        }
 
-  //   console.assert(
-  //     mergeSortedArrays([3, 4, 5], [4, 5, 6]).toString() ===
-  //       [3, 4, 4, 5, 5, 6].toString()
-  //   );
-  //   console.assert(
-  //     mergeSortedArrays([3, 4, 5, 6, 6, 10, 20], [4, 5, 6]).toString() ===
-  //       [3, 4, 4, 5, 5, 6, 6, 6, 10, 20].toString()
-  //   );
+        return mergedSortedArrays;
+    }
 
-  // TODO: convert mergeSortedArrays to a generic function to support strings and numbers
+    console.assert(
+        mergeSortedArrays([1, 2, 3], [4, 5, 6]).toString() ===
+            [1, 2, 3, 4, 5, 6].toString()
+    );
+
+    console.assert(
+        mergeSortedArrays([3, 4, 5], [4, 5, 6]).toString() ===
+            [3, 4, 4, 5, 5, 6].toString()
+    );
+    console.assert(
+        mergeSortedArrays([3, 4, 5, 6, 6, 10, 20], [4, 5, 6]).toString() ===
+            [3, 4, 4, 5, 5, 6, 6, 6, 10, 20].toString()
+    );
 }
 exerciseExtra3();

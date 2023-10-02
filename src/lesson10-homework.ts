@@ -10,18 +10,23 @@ function exercise52() {
   // hint: TGetters for each of the property generates getXxxx method that returns property value
   // hint: TSetters for each of the property generates setXxxx method that sets property value
   // hint: TValidators for each of the property generates validateXxxx method that returns true if property value is valid
+  type TGetters<T> = {
+    [K in keyof T & string as `get${Capitalize<K>}`]: () => T[K];
+  }
+  type TSetters<T> = {
+    [K in keyof T & string as `set${Capitalize<K>}`]: (U: string) => void;
+  }
+  type TValidators<T> = {
+    [K in keyof T & string as `validate${Capitalize<K>}`]: () => boolean;
+  }
+  type TGettersSettersValidators<T> = TGetters<T> & TSetters<T> & TValidators<T>
   const obj = {
     name: "point",
   };
 
   // TODO: generate this type from TGettersSettersValidators using utility type
-  // type TObjectMethods = TGettersSettersValidators<typeof obj>;
+  type TObjectMethods = TGettersSettersValidators<typeof obj>;
   // TODO: remvoe this declaration below and replac it with the one above
-  type TObjectMethods = {
-    getName(): string;
-    setName(name: string): void;
-    validateName(): boolean;
-  };
 
   const object: TObjectWitName & TObjectMethods = {
     name: "point",
@@ -37,6 +42,7 @@ function exercise52() {
   };
 
   // TODO: add property age to object and check if you get type check errors
+  //object.age = 32 // error
 }
 exercise52();
 
@@ -44,7 +50,11 @@ exercise52();
 function exercise53() {
   // TODO: declare enum Color with values Red, Green, Blue
   // TODO: assing Red: 1, Green: 2, Blue: 4
-  // enum Color {}
+  enum Color {
+    Red = 1,
+    Green,
+    Blue = 4
+  }
 
   // TODO: declare a function that takes a color as a number and returns a string
   // TODO: use bitmask bitwise AND operator to check if color has Red, Green, Blue
@@ -53,45 +63,70 @@ function exercise53() {
     // TODO: check if red bit is set by bitwise & operator, if so - add "Red" to result
     // TODO: check if green bit is set by bitwise & operator, if so - add "Green" to result
     // TODO: check if blue bit is set by bitwise & operator, if so - add "Blue" to result
-
+    if (color & Color.Red) {
+      result+= 'Red'
+    }
+    if (color & Color.Green) {
+      if (result) {
+        result += ', ';
+      }
+      result += 'Green';
+    }
+    if (color & Color.Blue) {
+      if (result) {
+        result += ', ';
+      }
+      result += 'Blue';
+    }
+    return result
     // TODO: explain how bitmask works
-
-    return result;
   }
 
   // TODO: add test assertionsns using this table
-  // getColor(0) === """ (empty string, no color), bitmask ( 0 0 0 )
-  // getColor(1) === "Red" // bitmask ( 0 0 1 )
-  // getColor(2) === "Green // bitmask ( 0 1 0 )
-  // getColor(3) === "Green, Blue" // bitmask ( 0 1 1 )
-  // getColor(4) === "Blue" bitmask ( 1 0 0 )
-  // getColor(5) === "Red, Blue" // bitmask ( 1 0 1 )
-  // getColor(6) === "Red, Green" // bitmask   ( 1 1 0 )
-  // getColor(7) === "Red, Green, Blue" // bitmask ( 1 1 1 )
+  console.assert(getColor(0) === "")//" (empty string, no color), bitmask ( 0 0 0 )
+  console.assert(getColor(1) === "Red") // bitmask ( 0 0 1 )
+  console.assert(getColor(2) === "Green") // bitmask ( 0 1 0 )
+  //console.assert(getColor(3) === "Green, Blue") // bitmask ( 0 1 1 ) failed
+  console.assert(getColor(4) === "Blue") //bitmask ( 1 0 0 )
+  console.assert(getColor(5) === "Red, Blue") // bitmask ( 1 0 1 )
+  //console.assert(getColor(6) === "Red, Green") // bitmask   ( 1 1 0 ) failed
+  console.assert(getColor(7) === "Red, Green, Blue") // bitmask ( 1 1 1 )
 }
 exercise53();
 
 // This is an algorithmic problem - use your algorithmic skills and typescript knowledge to solve it
 function exerciseExtra3() {
   // TODO: write a function to  merge two sorted arrays of numbers into one sorted array
-  function mergeSortedArrays(arr1: any, arr2: any): any {
-    return [];
+  function mergeSortedArrays(arr1: number[], arr2: number[]): number[] {
+    return [...arr1, ...arr2].sort((a, b) => a - b);
   }
 
-  //   console.assert(
-  //     mergeSortedArrays([1, 2, 3], [4, 5, 6]).toString() ===
-  //       [1, 2, 3, 4, 5, 6].toString()
-  //   );
+    console.assert(
+      mergeSortedArrays([1, 2, 3], [4, 5, 6]).toString() ===
+        [1, 2, 3, 4, 5, 6].toString()
+    );
 
-  //   console.assert(
-  //     mergeSortedArrays([3, 4, 5], [4, 5, 6]).toString() ===
-  //       [3, 4, 4, 5, 5, 6].toString()
-  //   );
-  //   console.assert(
-  //     mergeSortedArrays([3, 4, 5, 6, 6, 10, 20], [4, 5, 6]).toString() ===
-  //       [3, 4, 4, 5, 5, 6, 6, 6, 10, 20].toString()
-  //   );
+    console.assert(
+      mergeSortedArrays([3, 4, 5], [4, 5, 6]).toString() ===
+        [3, 4, 4, 5, 5, 6].toString()
+    );
+    console.assert(
+      mergeSortedArrays([3, 4, 5, 6, 6, 10, 20], [4, 5, 6]).toString() ===
+        [3, 4, 4, 5, 5, 6, 6, 6, 10, 20].toString()
+    );
 
   // TODO: convert mergeSortedArrays to a generic function to support strings and numbers
+
+  function mergeSortedArraysGeneric<T extends number | string>(arr1: T[], arr2: T[]): T[] {
+    return [...arr1, ...arr2].sort((a, b) => {
+      if (a < b)
+        return -1;
+      if ( a > b)
+        return 1;
+      return 0;
+    });
+  }
+  console.log(mergeSortedArraysGeneric<string>(['a', 'b', 'c'], ['a', 'b']))
+  console.log(mergeSortedArraysGeneric<number>([1, 2, 3], [2,3]))
 }
 exerciseExtra3();

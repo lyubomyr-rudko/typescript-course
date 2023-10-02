@@ -8,6 +8,8 @@ declare const xit: any;
 describe("Users class", () => {
   const { expect } = chai;
 
+  
+
   it("should be defined", () => {
     expect(Users).to.not.be.undefined;
   });

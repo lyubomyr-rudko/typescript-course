@@ -2,36 +2,47 @@
 function exercise52() {
   // TODO: write a utility type that for given object type T
   // will create a new type with all properties plus methods to get and set properties
-  // plus methods to validate earch of the property
+  // plus methods to validate each of the property
   type TObjectWitName = {
-    name: string;
+    name: string
   };
-  // TODO: declare utility type TGettersSettersValidators (union of TGetters, TSetters, TValidators)
+  // TODO: declare utility type TGettersSettersValidators (intersection of TGetters, TSetters, TValidators)
   // hint: TGetters for each of the property generates getXxxx method that returns property value
+  type TGetters<T> = {
+    [K in keyof T as `get${Capitalize<string&K>}`]:()=>T[K]
+  }
   // hint: TSetters for each of the property generates setXxxx method that sets property value
+  type TSetters<T> = {
+    [K in keyof T as `set${Capitalize<string&K>}`]:(value:T[K])=>void
+  }
   // hint: TValidators for each of the property generates validateXxxx method that returns true if property value is valid
+  type TValidators<T> = {
+    [K in keyof T as `validate${Capitalize<string&K>}`]:()=>boolean
+  }
+
   const obj = {
     name: "point",
   };
 
   // TODO: generate this type from TGettersSettersValidators using utility type
-  // type TObjectMethods = TGettersSettersValidators<typeof obj>;
-  // TODO: remvoe this declaration below and replac it with the one above
-  type TObjectMethods = {
-    getName(): string;
-    setName(name: string): void;
-    validateName(): boolean;
-  };
+  type TGettersSettersValidators<T> = TGetters<T> & TSetters<T> & TValidators<T>
+  type TObjectMethods = TGettersSettersValidators<typeof obj>;
+  // TODO: remove this declaration below and replace it with the one above
+  // type TObjectMethods = {
+  //   getName(): string;
+  //   setName(name: string): void;
+  //   validateName(): boolean;
+  // };
 
   const object: TObjectWitName & TObjectMethods = {
     name: "point",
-    getName() {
-      return this.name;
+    getName():string {
+      return this.name
     },
-    setName(name: string) {
-      this.name = name;
+    setName() {
+      this.name = "name";
     },
-    validateName() {
+    validateName():boolean {
       return this.name.length > 0;
     },
   };
@@ -43,31 +54,49 @@ exercise52();
 // enums
 function exercise53() {
   // TODO: declare enum Color with values Red, Green, Blue
-  // TODO: assing Red: 1, Green: 2, Blue: 4
-  // enum Color {}
+  // TODO: assign Red: 1, Green: 2, Blue: 4
+  enum Color {
+    Red = 1,
+    Green = 2,
+    Blue = 4
+  }
+
 
   // TODO: declare a function that takes a color as a number and returns a string
   // TODO: use bitmask bitwise AND operator to check if color has Red, Green, Blue
   function getColor(color: number): string {
     let result = "";
     // TODO: check if red bit is set by bitwise & operator, if so - add "Red" to result
+    if(color & Color.Red){
+      result += (result == "" ? "Red" : ", Red")
+    }
     // TODO: check if green bit is set by bitwise & operator, if so - add "Green" to result
+    if(color & Color.Green){
+      result += (result == "" ? "Green" : ", Green")
+    }
     // TODO: check if blue bit is set by bitwise & operator, if so - add "Blue" to result
-
+    if(color & Color.Blue){
+      result += (result == "" ? "Blue" : ", Blue")
+    }
     // TODO: explain how bitmask works
+    // Мы сравниваем 2 числа в бинарной системе и возвращаем значение где единицы совпали. Пример:
+    // 1      = 0001
+    // 15     = 1111
+    // 1 & 15 = 0001 (результат равен 1)
 
-    return result;
+    console.log("result: ", result)
+    return result ? result : "(empty string, no color)"
   }
 
-  // TODO: add test assertionsns using this table
-  // getColor(0) === """ (empty string, no color), bitmask ( 0 0 0 )
-  // getColor(1) === "Red" // bitmask ( 0 0 1 )
-  // getColor(2) === "Green // bitmask ( 0 1 0 )
-  // getColor(3) === "Green, Blue" // bitmask ( 0 1 1 )
-  // getColor(4) === "Blue" bitmask ( 1 0 0 )
-  // getColor(5) === "Red, Blue" // bitmask ( 1 0 1 )
-  // getColor(6) === "Red, Green" // bitmask   ( 1 1 0 )
-  // getColor(7) === "Red, Green, Blue" // bitmask ( 1 1 1 )
+  // TODO: add test assertions using this table
+  console.log(getColor(0) === "(empty string, no color)") //, bitmask ( 0 0 0 )
+  console.log(getColor(1) === "Red") // bitmask ( 0 0 1 )
+  console.log(getColor(2) === "Green") // bitmask ( 0 1 0 )
+  console.log(getColor(3) === "Red, Green") // bitmask ( 0 1 1 )
+  console.log(getColor(4) === "Blue") //bitmask ( 1 0 0 )
+  console.log(getColor(5) === "Red, Blue") // bitmask ( 1 0 1 )
+  console.log(getColor(6) === "Green, Blue") // bitmask   ( 1 1 0 )
+  console.log(getColor(7) === "Red, Green, Blue") // bitmask ( 1 1 1 )
 }
 exercise53();
 

@@ -10,7 +10,7 @@
 // TODO: create src/index.ts with this code
 function excercise1() {
     let greeting;
-    greeting = "Hello World";
+    greeting = 'Hello World';
     console.log(greeting);
 }
 excercise1();

@@ -33,7 +33,7 @@ describe('Users class', () => {
                 { firstName: 'Jack', lastName: 'Chan' },
             ];
 
-            const users = new Users(mockData);
+            const users = new Users(mockData as any);
 
             expect(users.getUsersNames()).to.deep.equal([
                 'Bob, Smith',
@@ -85,7 +85,7 @@ describe('Users class', () => {
                 },
             ];
 
-            const users = new Users(mockData);
+            const users = new Users(mockData as any);
 
             const usersAges = users.updateUsersAge().map((user) => user.age);
 
@@ -149,7 +149,7 @@ describe('Users class', () => {
                 },
             ];
 
-            const users = new Users(mockData);
+            const users = new Users(mockData as any);
 
             const usersNamesAndPhones = users
                 .getUsersFromUkraine()
@@ -191,12 +191,6 @@ describe('Users class', () => {
                     lastName,
                     phone,
                 }));
-
-            const isEqual =
-                JSON.stringify(usersNamesAndPhones) ===
-                JSON.stringify(expectedResult);
-
-            console.log({ usersNamesAndPhones, expectedResult, isEqual });
 
             expect(usersNamesAndPhones.length).to.equal(1);
 
@@ -241,7 +235,7 @@ describe('Users class', () => {
                 },
             ];
 
-            const users = new Users(mockData);
+            const users = new Users(mockData as any);
 
             expect(users.getStatePostalCodes()).to.deep.equal([
                 { name: 'CO', postalCodes: ['80003', '80004'] },
@@ -306,11 +300,74 @@ describe('Users class', () => {
 
             // - Виправити метод getUsersFromUkraine так, щоб цей юніт-тест проходив
             // - Дописати цей юніт-тест, так щоб використовувалися data.users - замінити 12345 на правильні дані
-            // expect(users.getMediumWomenAge()).to.deep.equal(12345);
         });
     });
 
     // Написати юніт-тести для наступних методів
     // getMostCommonWoomanHairColor - метод що повератє найбільш поширений колір волося серед жінок
+
+    describe('getMostCommonWoomanHairColor method', () => {
+        it('should be defined', () => {
+            const users = new Users(data.users);
+
+            expect(users.getMostCommonWoomanHairColor).to.not.be.undefined;
+        });
+
+        it('should work for real data', () => {
+            const users = new Users(data.users);
+            const hairColors: {
+                [key: string]: number;
+            } = {};
+            data.users.forEach(({ gender, hair: { color } }) => {
+                if (gender !== 'female') return;
+                hairColors[color] = (hairColors[color] || 0) + 1;
+            });
+            let mostCommonColor = '';
+            let maxCount = 0;
+
+            for (const [color, count] of Object.entries(hairColors)) {
+                if (count > maxCount) {
+                    mostCommonColor = color;
+                    maxCount = count;
+                }
+            }
+            expect(users.getMostCommonWoomanHairColor()).to.equal(
+                mostCommonColor
+            );
+        });
+    });
+
     // getMostCommonManBlodType - метод що повератє найбільш поширениу групу крові серед чоловіків
+
+    describe('getMostCommonManBloodType method', () => {
+        it('should be defined', () => {
+            const users = new Users(data.users);
+
+            expect(users.getMostCommonManBloodType).to.not.be.undefined;
+        });
+
+        it('should work for real data', () => {
+            const users = new Users(data.users);
+
+            const bloodTypes: {
+                [key: string]: number;
+            } = {};
+            data.users.forEach(({ gender, bloodGroup }) => {
+                if (gender !== 'male') return;
+                bloodTypes[bloodGroup] = (bloodTypes[bloodGroup] || 0) + 1;
+            });
+            let mostCommonBloodType = '';
+            let maxCount = 0;
+
+            for (const [bloodType, count] of Object.entries(bloodTypes)) {
+                if (count > maxCount) {
+                    mostCommonBloodType = bloodType;
+                    maxCount = count;
+                }
+            }
+            expect(users.getMostCommonManBloodType()).to.equal(
+                mostCommonBloodType
+            );
+        });
+    });
 });

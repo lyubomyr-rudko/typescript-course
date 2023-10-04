@@ -1,70 +1,64 @@
 type TMyUser = {
-    id?: number;
-    firstName?: string;
-    lastName?: string;
-    maidenName?: string;
-    age?: number;
-    gender?: string;
-    email?: string;
-    phone?: string;
-    username?: string;
-    password?: string;
-    birthDate?: string;
-    image?: string;
-    bloodGroup?: string;
-    height?: number;
-    weight?: number;
-    eyeColor?: string;
-    hair?: {
-        color?: string;
-        type?: string;
+    id: number;
+    firstName: string;
+    lastName: string;
+    maidenName: string;
+    age: number;
+    gender: string;
+    email: string;
+    phone: string;
+    username: string;
+    password: string;
+    birthDate: string;
+    image: string;
+    bloodGroup: string;
+    height: number;
+    weight: number;
+    eyeColor: string;
+    hair: {
+        color: string;
+        type: string;
     };
-    domain?: string;
-    ip?: string;
-    address?: {
-        address?: string;
-        city?: string;
-        coordinates?: {
-            lat?: number;
-            lng?: number;
+    domain: string;
+    ip: string;
+    address: {
+        address: string;
+        city: string;
+        coordinates: {
+            lat: number;
+            lng: number;
         };
-        postalCode?: string;
-        state?: string;
+        postalCode: string;
+        state: string;
     };
-    macAddress?: string;
-    university?: string;
-    bank?: {
-        cardExpire?: string;
-        cardNumber?: string;
-        cardType?: string;
-        currency?: string;
-        iban?: string;
+    macAddress: string;
+    university: string;
+    bank: {
+        cardExpire: string;
+        cardNumber: string;
+        cardType: string;
+        currency: string;
+        iban: string;
     };
-    company?: {
-        address?: {
-            address?: string;
+    company: {
+        address: {
+            address: string;
             city?: string;
-            coordinates?: {
-                lat?: number;
-                lng?: number;
+            coordinates: {
+                lat: number;
+                lng: number;
             };
-            postalCode?: string;
-            state?: string;
+            postalCode: string;
+            state: string;
         };
-        department?: string;
-        name?: string;
-        title?: string;
+        department: string;
+        name: string;
+        title: string;
     };
-    ein?: string;
-    ssn?: string;
-    userAgent?: string;
+    ein: string;
+    ssn: string;
+    userAgent: string;
 };
-
-type RequiredFields<T, K extends keyof T> = {
-    [P in K]-?: T[P];
-};
-
-type q = RequiredFields<TMyUser, 'birthDate'>;
 
 class Users {
     // TODO: Add type for list property, remove `any` type annotation
@@ -82,9 +76,7 @@ class Users {
     // TODO: Need to fix code to use this.list property data
     // TODO: Need to not mutate this.list property, but return new array of users with updated age
     updateUsersAge() {
-        type TList = (TMyUser & RequiredFields<TMyUser, 'birthDate' | 'age'>)[];
-
-        return (this.list as TList).map((user) => {
+        return this.list.map((user) => {
             {
                 return {
                     ...user,
@@ -99,12 +91,7 @@ class Users {
     // TODO: Implement method that returns users from Ukraine (phone number +380)
     // TODO: Use this.list property data
     getUsersFromUkraine() {
-        type TList = (TUser &
-            RequiredFields<TMyUser, 'firstName' | 'lastName' | 'phone'>)[];
-
-        return (this.list as TList).filter(({ phone }) =>
-            phone.startsWith('+380')
-        );
+        return this.list.filter(({ phone }) => phone.startsWith('+380'));
     }
 
     // TODO: Implement method that returns postal codes grouped by state, using this.list user data
@@ -114,14 +101,7 @@ class Users {
             postalCodes: Required<TMyUser>['address']['postalCode'][];
         }[];
 
-        type TList = (Omit<TMyUser, 'address'> & {
-            address: RequiredFields<
-                Required<TMyUser>['address'],
-                'postalCode' | 'state'
-            >;
-        })[];
-
-        return (this.list as TList).reduce(
+        return this.list.reduce(
             (acc: TStatePostalCodes, { address: { state, postalCode } }) => {
                 const indx = acc.findIndex(({ name }) => name === state);
 
@@ -140,15 +120,50 @@ class Users {
     }
 
     getMediumWomenAge() {
-        type TList = (TMyUser & RequiredFields<TMyUser, 'gender' | 'age'>)[];
-
         return (
-            (this.list as TList).reduce((acc, { age, gender }) => {
+            this.list.reduce((acc, { age, gender }) => {
                 if (gender === '') {
                     return (acc += age);
                 }
                 return acc;
             }, 0) / this.list.length
         );
+    }
+
+    getMostCommonValue(obj: { [key: string]: number }) {
+        let mostCommonValue = '';
+        let maxCount = 0;
+
+        for (const [key, value] of Object.entries(obj)) {
+            if (value > maxCount) {
+                mostCommonValue = key;
+                maxCount = value;
+            }
+        }
+        return mostCommonValue;
+    }
+
+    getMostCommonWoomanHairColor() {
+        const hairColors: {
+            [key: string]: number;
+        } = {};
+
+        this.list.forEach(({ gender, hair: { color } }) => {
+            if (gender !== 'female') return;
+            hairColors[color] = (hairColors[color] || 0) + 1;
+        });
+        return this.getMostCommonValue(hairColors);
+    }
+
+    getMostCommonManBloodType() {
+        const bloodTypes: {
+            [key: string]: number;
+        } = {};
+
+        this.list.forEach(({ gender, bloodGroup }) => {
+            if (gender !== 'male') return;
+            bloodTypes[bloodGroup] = (bloodTypes[bloodGroup] || 0) + 1;
+        });
+        return this.getMostCommonValue(bloodTypes);
     }
 }

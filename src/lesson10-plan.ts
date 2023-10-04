@@ -213,12 +213,12 @@ function utilityTypesDeepDive() {
     name: string;
   };
   type TPoint2d = Pick<TPoint, "x" | "y">;
-  type TPoint2d2 = {
-    [P in "x" | "y"]: TPoint[P];
-  };
-  type Pick<T, K extends keyof T> = {
-    [P in K]: T[P];
-  };
+  // type TPoint2d2 = {
+  //   [P in "x" | "y"]: TPoint[P];
+  // };
+  // type Pick<T, K extends keyof T> = {
+  //   [P in K]: T[P];
+  // };
 
   // Exclude - exclude from T all union pargs that are assignable to U
   //   type Exclude<T, U> = T extends U ? never : T;

@@ -6,10 +6,12 @@ declare const it: any;
 declare const xit: any;
 
 describe("Users class", () => {
+  let users: Users;
   const { expect } = chai;
 
   it("should be defined", () => {
-    expect(Users).to.not.be.undefined;
+    const users = new Users(data.users);
+    expect(users).to.not.be.undefined;
   });
 
   it("should define constructor that accepts users list", () => {
@@ -33,7 +35,7 @@ describe("Users class", () => {
         { firstName: "Jack", lastName: "Chan" },
       ];
 
-      const users = new Users(mockData);
+      const users = new Users(mockData as any);
 
       expect(users.getUsersNames()).to.deep.equal(["Bob, Smith", "Jack, Chan"]);
     });
@@ -78,7 +80,7 @@ describe("Users class", () => {
         },
       ];
 
-      const users = new Users(mockData);
+      const users = new Users(mockData as any);
 
       users.updateUsersAge();
 
@@ -128,7 +130,7 @@ describe("Users class", () => {
         { firstName: "Myk", lastName: "Franko", phone: "+3809625426549" },
       ];
 
-      const users = new Users(mockData);
+      const users = new Users(mockData as any);
 
       const usersNamesAndPhones = users
         .getUsersFromUkraine()
@@ -209,7 +211,7 @@ describe("Users class", () => {
         },
       ];
 
-      const users = new Users(mockData);
+      const users = new Users(mockData as any);
 
       expect(users.getStatePostalCodes()).to.deep.equal([
         { name: "CO", postalCodes: ["80003", "80004"] },
@@ -232,7 +234,12 @@ describe("Users class", () => {
 
   describe("getAverageWomenAge method", () => {
     // - Написати функцію що повератє середній вік всіх жінок ("gender": "female")
-
+    it("should calculate the average age of female users", () => {
+      const users = new Users(data.users as any);
+      const averageAge = users.getAverageWomenAge();
+      // Ожидаем, что средний возраст женщин равен 30, так как в вашем тестовом наборе данных у обеих женщин возраст 30
+      expect(averageAge).to.equal(30);
+    });
     xit("should be defined", () => {
       const users = new Users(data.users);
 

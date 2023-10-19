@@ -1,6 +1,23 @@
 // try different target compiler options
 function excercise10() {
   // TODO: declare a Rectangle class, with width and height properties
+  class Rectangle {
+    #width: number;
+    #height: number;
+    constructor(width: number, height: number) {
+      this.#width = width;
+      this.#height = height;
+    }
+    getArea() {
+      return this.#width * this.#height;
+    }
+    getPerimeter() {
+      return this.#width * 2 + this.#height * 2;
+    }
+  }
+  const rectangle = new Rectangle(10, 20);
+  console.log(rectangle.getArea());
+  console.log(rectangle.getPerimeter());
   // TODO: add a constructor which takes width and height as parameters
   // TODO: add a method `getArea` which returns the area of the rectangle
   // TODO: add a method `getPerimeter` which returns the perimeter of the rectangle
@@ -21,6 +38,24 @@ excercise10();
 // create a generic Stack class (Stack is a FILO data structure, push and pop methods are used to add and remove items from the top of the stack)
 function excercise11() {
   // TODO: create a generic Stack class
+  class Stack<T> {
+    private data: T[] = [];
+    push(item: T) {
+      this.data.push(item);
+    }
+    pop() {
+      return this.data.pop();
+    }
+  }
+  const stackNumber = new Stack<number>();
+  stackNumber.push(25);
+  stackNumber.push(35);
+  console.log(stackNumber.pop()?.toFixed());
+
+  const stackString = new Stack<string>();
+  stackString.push("Vasya");
+  stackString.push("Oleg");
+  console.log(stackString.pop());
   // TODO: add a private data property of type array of T
   // TODO: add a push method which takes an item of type T as a parameter and adds it to the top of the stack
   // TODO: add a pop method which removes and returns the item from the top of the stack
@@ -37,9 +72,28 @@ excercise11();
 // create a generic function which takes an array of items of type T and returns the random item from the array
 function excercise12() {
   // TODO: create a function that takes an array of numbers and returns a random number from the array
+  function getRandomIndex(number: number): number {
+    return Math.floor(Math.random() * number);
+  }
+  function getRandomNumber(arr: number[]): number | undefined {
+    if (arr.length === 0) return undefined;
+    return arr[getRandomIndex(arr.length)];
+  }
   // TODO: create a function that takes an array of strings and returns a random string from the array
+  function getRandomString(arr: string[]): string | undefined {
+    if (arr.length === 0) return undefined;
+    return arr[getRandomIndex(arr.length)];
+  }
   // TODO: create a function that takes an array of objects and returns a random object from the array
+  function getRandomObject(arr: object[]): object | undefined {
+    if (arr.length === 0) return undefined;
+    return arr[getRandomIndex(arr.length)];
+  }
   // TODO: observe the same structure of the functions above, and create a generic function which takes an array of items of type T and returns the random item from the array
+  function getRandomItem<T>(arr: T[]): T | undefined {
+    if (arr.length === 0) return undefined;
+    return arr[getRandomIndex(arr.length)];
+  }
 }
 // TODO: compile and run the code
 excercise12();
@@ -53,7 +107,7 @@ function excercise13() {
   }
   const userAge = fetchUserAge();
   // TODO: uncomment the following code and add type assertion to fix the error
-  // console.log(userAge + 1);
+  console.log((userAge as number) + 1);
 }
 // TODO: compile and run the code
 excercise13();
@@ -63,8 +117,11 @@ excercise13();
 function excercise14() {
   function fetchUserAge() {
     const responseText = '{"name": "John", "age": "16"}';
-
-    return JSON.parse(responseText).age;
+    const { age } = JSON.parse(responseText);
+    if (typeof age !== "number") {
+      return +age;
+    }
+    return age;
   }
   const userAge = fetchUserAge();
   // TODO: run the code below and observe the result, explain why it is happening,
@@ -83,21 +140,25 @@ excercise14();
 // add type safety to the code which uses any
 function excercise15() {
   // TODO: declare a type for user object, which has a name property of type string
-
+  type TUser = { name: string };
+  type TArr = { users: TUser[] };
   // TODO: fix the fetchUsers function to return an array of users, not any type
-  function fetchUsers() {
+  function fetchUsers(): TUser[] {
     // TODO: add type safety to the data variable, annotate it with the type of users
-    const data: unknown = JSON.parse(
-      '{"users": [{"name": "John"}, {"name": "Jane"}]}'
-    );
-
+    const data2: TArr = JSON.parse('{"users": [{"name": "John"}, {"name": "Jane"}]}');
+    // const data: { users: TUser[] } = JSON.parse('{"users": [{"name": "John"}, {"name": "Jane"}]}');
+    if (Array.isArray(data2.users)) {
+      return data2.users;
+    } else {
+      throw new Error("Invalid data format");
+    }
     // TODO: add check for the data type to contain list of users
-    return data;
+    // return data.users;
   }
   // TODO: fix typings of the users variable (currently it is of type any)
   const users = fetchUsers();
   // TODO: add type safety to the code to print the names of the users to console
-  // users.forEach((user) => console.log(user.name));
+  users.forEach((user) => console.log(user.name));
 }
 // TODO: compile and run the code
 excercise15();
@@ -113,4 +174,4 @@ function excercise16() {
   // NOTE: For the most part, type declaration packages should always have the same name as the package name on npm, but prefixed with @types/
 }
 // TODO: compile and run the code
-excercise16();
+excercise16(); 

@@ -1,15 +1,14 @@
 function lesson18() {
-  // ********* Lesson 18 *********
-  // Behavioral Design Patterns
-  // - Observer
-  // - Mediator
-  // - Iterator
-  // - Strategy
-  // - Command
-  // - Chain of Responsibility
-  // - Visitor
-  // - State
-  // - Memento
-  // - Template Method
+  // ********* Lesson 17 *********
+  // Structural Design Patterns
+  // - Decorator
+  // - Facade
+  // - Adapter
+  // ********* Lesson 16 *********
+  // Design Patterns overview
+  // Creational Patterns
+  // - Singleton
+  // - Factory
+  // - Builder
 }
 lesson18();

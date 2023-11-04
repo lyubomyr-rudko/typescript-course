@@ -1,6 +1,7 @@
 "use strict";
 function lesson14() {
     // ********* Lesson 14 *********
-    // React Redux toolkit with TypeScript
+    // Loading and saving data
+    // Forms and inputs
 }
 lesson10();

@@ -1,9 +1,3 @@
 "use strict";
-function lesson17() {
-    // ********* Lesson 17 *********
-    // Structural Design Patterns
-    // - Decorator
-    // - Facade
-    // - Adapter
-}
+function lesson17() { }
 lesson10();

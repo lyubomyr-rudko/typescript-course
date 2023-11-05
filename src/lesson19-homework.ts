@@ -1,67 +1,61 @@
 function lesson19Homework() {
   abstract class Player {
-    height: number;
-    weight: number;
-    constructor(height: number, weight: number) {
-      this.height = height;
-      this.weight = weight;
-    }
     abstract setHeight(height: number): void;
     abstract setWeight(weight: number): void;
   }
 
   class Reciever extends Player {
-    constructor(height: number, weight: number) {
-      super(height, weight);
+    constructor(public height: number, public weight: number) {
+      super();
     }
-    setHeight(height: number) {
+    setHeight(height: number): void {
       this.height = height;
     }
-    setWeight(weight: number) {
+    setWeight(weight: number): void {
       this.weight = weight;
     }
   }
   class Opposite extends Player {
-    constructor(height: number, weight: number) {
-      super(height, weight);
+    constructor(public height: number, public weight: number) {
+      super();
     }
-    setHeight(height: number) {
+    setHeight(height: number): void {
       this.height = height;
     }
-    setWeight(weight: number) {
+    setWeight(weight: number): void {
       this.weight = weight;
     }
   }
   class Setter extends Player {
-    constructor(height: number, weight: number) {
-      super(height, weight);
+    constructor(public height: number, public weight: number) {
+      super();
     }
-    setHeight(height: number) {
+    setHeight(height: number): void {
       this.height = height;
     }
-    setWeight(weight: number) {
+    setWeight(weight: number): void {
       this.weight = weight;
     }
   }
   class MiddleBlocker extends Player {
-    constructor(height: number, weight: number) {
-      super(height, weight);
+    constructor(public height: number, public weight: number) {
+      super();
     }
-    setHeight(height: number) {
+    setHeight(height: number): void {
       this.height = height;
     }
-    setWeight(weight: number) {
+    setWeight(weight: number): void {
       this.weight = weight;
     }
   }
   class Libero extends Player {
-    constructor(height: number, weight: number) {
-      super(height, weight);
+    constructor(public height: number, public weight: number) {
+      super();
     }
-    setHeight(height: number) {
+    setHeight(height: number): void {
       this.height = height;
     }
-    setWeight(weight: number) {
+    setWeight(weight: number): void {
       this.weight = weight;
     }
   }
@@ -87,22 +81,19 @@ function lesson19Homework() {
   }
 
   class PlayersStore {
-    public factory: PlayersFactory;
+    public constructor(public factory: PlayersFactory) {}
 
-    public constructor(factory: PlayersFactory) {
-      this.factory = factory;
-    }
-
-    public create(position: string, height: number, weight: number) {
+    public addPlayer(position: string, height: number, weight: number) {
       let player;
-      return (player = this.factory.createPlayer(position, height, weight));
+      player = this.factory.createPlayer(position, height, weight);
+      return player;
     }
   }
 
   const player = new PlayersStore(new PlayersFactory());
-  const reciever = player.create("reciever", 192, 86);
-  const opposite = player.create("opposite", 199, 96);
-  const libero = player.create("libero", 179, 73);
+  const reciever = player.addPlayer("reciever", 192, 86);
+  const opposite = player.addPlayer("opposite", 199, 96);
+  const libero = player.addPlayer("libero", 179, 73);
   libero.setHeight(220);
   libero.setWeight(120);
   console.log(reciever);

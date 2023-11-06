@@ -1,103 +1,140 @@
 function lesson19Homework() {
-  abstract class Player {
-    abstract setHeight(height: number): void;
-    abstract setWeight(weight: number): void;
+  type TMember = { role: string };
+
+  abstract class Player implements TMember {
+    role = "player";
+    abstract getInfoOfMember(): void;
+  }
+  abstract class Staff implements TMember {
+    role = "stuff";
+    abstract getInfoOfMember(): void;
+  }
+
+  class Coach extends Staff {
+    constructor(public age: number, public position: string, public expirience: number) {
+      super();
+    }
+    getInfoOfMember(): void {
+      console.log(
+        `Role of this member is ${this.role} and position ${this.position} , his age is ${this.age} and his expirience is ${this.expirience}`
+      );
+    }
+  }
+  class Doctor extends Staff {
+    constructor(public age: number, public position: string, public expirience: number) {
+      super();
+    }
+    getInfoOfMember(): void {
+      console.log(
+        `Role of this member is ${this.role} and position ${this.position} , his age is ${this.age} and his expirience is ${this.expirience}`
+      );
+    }
+  }
+  class Masseur extends Staff {
+    constructor(public age: number, public position: string, public expirience: number) {
+      super();
+    }
+    getInfoOfMember(): void {
+      console.log(
+        `Role of this member is ${this.role} and position ${this.position} , his age is ${this.age} and his expirience is ${this.expirience}`
+      );
+    }
   }
 
   class Reciever extends Player {
-    constructor(public height: number, public weight: number) {
+    constructor(public age: number, public position: string, public expirience: number) {
       super();
     }
-    setHeight(height: number): void {
-      this.height = height;
-    }
-    setWeight(weight: number): void {
-      this.weight = weight;
+    getInfoOfMember(): void {
+      console.log(
+        `Role of this member is ${this.role} and position ${this.position} , his age is ${this.age} and his expirience is ${this.expirience}`
+      );
     }
   }
   class Opposite extends Player {
-    constructor(public height: number, public weight: number) {
+    constructor(public age: number, public position: string, public expirience: number) {
       super();
     }
-    setHeight(height: number): void {
-      this.height = height;
-    }
-    setWeight(weight: number): void {
-      this.weight = weight;
+    getInfoOfMember(): void {
+      console.log(
+        `Role of this member is ${this.role} and position ${this.position} , his age is ${this.age} and his expirience is ${this.expirience}`
+      );
     }
   }
   class Setter extends Player {
-    constructor(public height: number, public weight: number) {
+    constructor(public age: number, public position: string, public expirience: number) {
       super();
     }
-    setHeight(height: number): void {
-      this.height = height;
-    }
-    setWeight(weight: number): void {
-      this.weight = weight;
-    }
-  }
-  class MiddleBlocker extends Player {
-    constructor(public height: number, public weight: number) {
-      super();
-    }
-    setHeight(height: number): void {
-      this.height = height;
-    }
-    setWeight(weight: number): void {
-      this.weight = weight;
-    }
-  }
-  class Libero extends Player {
-    constructor(public height: number, public weight: number) {
-      super();
-    }
-    setHeight(height: number): void {
-      this.height = height;
-    }
-    setWeight(weight: number): void {
-      this.weight = weight;
+    getInfoOfMember(): void {
+      console.log(
+        `Role of this member is ${this.role} and position ${this.position} , his age is ${this.age} and his expirience is ${this.expirience}`
+      );
     }
   }
 
   class PlayersFactory {
-    public createPlayer(position: string, height: number, weight: number): Player {
-      let player: Player | null = null;
-      if (position === "reciever") {
-        player = new Reciever(height, weight);
-      } else if (position === "opposite") {
-        player = new Opposite(height, weight);
-      } else if (position === "setter") {
-        player = new Setter(height, weight);
-      } else if (position === "middleBlocker") {
-        player = new MiddleBlocker(height, weight);
-      } else if (position === "libero") {
-        player = new Libero(height, weight);
+    public createTeamMember(age: number, role: string, expirience: number): Player {
+      let member: Player | null = null;
+      if (role === "reciever") {
+        member = new Reciever(age, role, expirience);
+      } else if (role === "opposite") {
+        member = new Opposite(age, role, expirience);
+      } else if (role === "setter") {
+        member = new Setter(age, role, expirience);
       } else {
-        throw new Error("this position doesn't exist in volleyball");
+        throw new Error("this position doesn't exist in team");
       }
-      return player;
+      return member;
+    }
+  }
+  class StaffFactory {
+    public createTeamMember(age: number, role: string, expirience: number): Staff {
+      let member: Staff | null = null;
+      if (role === "coach") {
+        member = new Coach(age, role, expirience);
+      } else if (role === "doctor") {
+        member = new Doctor(age, role, expirience);
+      } else if (role === "masseur") {
+        member = new Masseur(age, role, expirience);
+      } else {
+        throw new Error("this position doesn't exist in team");
+      }
+      return member;
     }
   }
 
-  class PlayersStore {
-    public constructor(public factory: PlayersFactory) {}
+  type Factory = StaffFactory | PlayersFactory;
 
-    public addPlayer(position: string, height: number, weight: number) {
-      let player;
-      player = this.factory.createPlayer(position, height, weight);
-      return player;
+  class TeamMemberStore {
+    public factory: Factory;
+    public constructor(factory: Factory) {
+      this.factory = factory;
+    }
+
+    public createTeamMember(age: number, role: string, expirience: number) {
+      let member;
+      member = this.factory.createTeamMember(age, role, expirience);
+      return member;
     }
   }
 
-  const player = new PlayersStore(new PlayersFactory());
-  const reciever = player.addPlayer("reciever", 192, 86);
-  const opposite = player.addPlayer("opposite", 199, 96);
-  const libero = player.addPlayer("libero", 179, 73);
-  libero.setHeight(220);
-  libero.setWeight(120);
+  const player = new TeamMemberStore(new PlayersFactory());
+  const staff = new TeamMemberStore(new StaffFactory());
+  const reciever = player.createTeamMember(26, "reciever", 12);
+  const opposite = player.createTeamMember(32, "opposite", 15);
+  const setter = player.createTeamMember(36, "setter", 8);
+  const coach = staff.createTeamMember(58, "coach", 44);
+  const doctor = staff.createTeamMember(47, "doctor", 22);
+  const masseur = staff.createTeamMember(42, "masseur", 12);
+
   console.log(reciever);
   console.log(opposite);
-  console.log(libero);
+  console.log(setter);
+  console.log(coach);
+  console.log(doctor);
+  console.log(masseur);
+
+  doctor.getInfoOfMember()
+  reciever.getInfoOfMember()
 }
 lesson19Homework();

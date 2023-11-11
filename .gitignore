@@ -1,9 +1,1 @@
-# folders
-.DS_Store
-.idea/
-dist/
-node_modules/
-
-# files
-.vscode
-.idea
+node_modules

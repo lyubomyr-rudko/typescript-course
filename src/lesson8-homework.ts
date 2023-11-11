@@ -13,7 +13,7 @@ function exercise40() {
   }
 
   // TODO: fix the type of fetchResult variable to be union of array of GroupDocument objects / null
-  let fetchResult: any = null;
+  let fetchResult: GroupDocument[] | null;
 
   // TODO: keep this code as is
   fetchResult = [
@@ -48,15 +48,16 @@ function exercise40() {
 
   if (fetchResult !== null) {
     // NOTE: observe taht type narrowing works here
+    const localFetchResult = fetchResult;
     console.log(fetchResult.length);
 
     userNames.forEach((name) => {
-      // TOOD: explain why type narrowing does not work here and fix the error (and remove `any` type annotations)
+      // TOOD: explain why type narrowing does not work here and fix the error (and remove any type annotations)
       let result = fetchResult.find((obj: any) => obj.name === name);
 
-      if (result) {
-        console.log(result.data);
-      }
+        if (result) {
+          console.log(result.data);
+        }
     });
   }
 }
@@ -131,9 +132,22 @@ function exercise41() {
   // TODO: for each property of the user object, print its type using js typeof operator
   function printAllUserPropTypes() {
     // TODO: get lis of own keys of the user object
+    const keys = Object.keys(user);
     // TODO: iterate over the keys with foreach
-    // TODO: console.log the typeof for each property
-  }
+    keys.forEach((key) => {
+      const value = (user as any)[key];
+      if (typeof value === 'object') {
+        const innerKeys = Object.keys(value);
+        innerKeys.forEach((innerKey) => {
+            const innerValue = value[innerKey];
+            console.log(`${key}.${innerKey}: ${typeof innerValue}`);
+        });
+      } else {
+      // TODO: console.log the typeof for each property
+        console.log(`${key}: ${typeof value}`);
+      }
+    });
+  }// TODO: console.log the typeof for each property
   printAllUserPropTypes();
 
   // TODO: create function that returns coordinates of the user copany address,
@@ -192,14 +206,14 @@ function exercise42() {
   type TProduct = {
     id: number;
     title: string;
-    // TOOD: add remaining missing properties types, list each of them explicitly
+    // TOOD: add remaining missing properties
   };
 
   // TODO: create a type TCoodinates that represents coordinates, using lookup type
   //  (product->warehouse->address->coordinates)
-  type TCoordinates = {};
+  type TCoordinates = typeof products[number]["warehouse"]["address"]["coordinates"];
 
-  // TODO: fix/add type annotation for the function (remove `any` type annotation)
+  // TODO: fix/add type annotation for the function (remove any type annotation)
   function printProductLocationCoordinates(coordinates: TCoordinates | any) {
     // NOTE: this could be using google map api to display the location on the map, but for now just console.log
     console.log(coordinates.lat);
@@ -214,10 +228,15 @@ function exercise42() {
     // TODO: fix the return value to be a type of a phone number for the product warehouse
     // HINT: use lookup types, and the result for that should equal to string type
     // TODO: make sure the function gets a phone number from product object
-    return "";
+    return product["warehouse"]["phoneNumbers"][0];
   }
 
-  getProductWarehousePhoneNumber(products[0]);
+  const phoneNumber = getProductWarehousePhoneNumber(products[0] as TProduct);
+  if (phoneNumber !== undefined) {
+    console.log(phoneNumber);
+  } else {
+    console.log("Phone number not found");
+  }
 }
 exercise42();
 
@@ -226,14 +245,14 @@ function exercise43() {
   // TODO: implement functions to get and set property of an object in type safe way
 
   // TODO: for type sefty use generics and keyof type operator to ensure that key is a valid property of the object
-  function getProperty(obj: any, key: string) {
+  function getProperty<T>(obj: T, key: keyof T) {
     console.log("getProperty", obj[key]);
 
     return obj[key];
   }
 
   // TODO: use generics and lookup type, add types T, K and use T[K] for value param type
-  function setProperty(obj: any, key: string, value: any) {
+  function setProperty<T, K extends keyof T>(obj: T, key: K, value: T[K]) {
     obj[key] = value;
     console.log("setProperty", obj, key, obj[key]);
   }
@@ -253,36 +272,36 @@ function exercise44() {
   // TODO: create a coditional type that will check if the type is a primitive type (unites all string, number, boolean)
   // TODO: if the type is primitive, return literal type 'primitive'
   // TODO: if the type is not primitive, return literal type 'not primitive'
-  type TIsPrimitive = {};
+  type TIsPrimitive<T> = T extends string | number | boolean ? 'primitive' : 'not primitive';
 
   // TODO uncomment the following lines
-  //   type T1 = TIsPrimitive<number>; // hint: should be 'primitive'
-  //   type T2 = TIsPrimitive<string>;
-  //   type T3 = TIsPrimitive<0>;
-  //   type T4 = TIsPrimitive<{}>;  // hint: should be 'not primitive'
-  //   type T4 = TIsPrimitive<Function>;  // hint: should be 'not primitive'
+    type T1 = TIsPrimitive<number>; // hint: should be 'primitive'
+    type T2 = TIsPrimitive<string>;
+    type T3 = TIsPrimitive<0>;
+    type T4 = TIsPrimitive<{}>;  // hint: should be 'not primitive'
+    type T5 = TIsPrimitive<Function>;  // hint: should be 'not primitive'
 }
 exercise44();
 
 // Use conditional types with unions and never
 function exercise45() {
   // TODO: create a type that excludes number from a union type
-  type ExcludeNumberFromType<T> = T extends number ? "number" : "not number"; // TODO: replace with your code
+  type ExcludeNumberFromType<T> = T extends number ? never : T; // TODO: replace with your code
 
   type TNumberOrString = number | string;
 
   type TExcludeNumberFromType = ExcludeNumberFromType<TNumberOrString>; // Hint - should equal to string
 
   // TODO: uncomment the following lines and make sure there are no errors
-  //   const a: TExcludeNumberFromType = "test";
-  //   console.log(a);
+    const a: TExcludeNumberFromType = "test";
+    console.log(a);
 }
 exercise45();
 
 // Use infer keyword
 function exercise46() {
   // create a type that extracts the type of the first argument of a function
-  // type FirstParameter<T> = ...
+  type FirstParameter<T> = T extends (arg1: infer U, ...args: any) => any ? U : never;
   function createUser(firstName: string, lastName: string, age: number) {
     const id = (Math.random() * 100000).toString();
 
@@ -294,7 +313,7 @@ function exercise46() {
     };
   }
   // TODO: uncomment the following line and fix the error
-  // type TCreateUserFirstArg = FirstParameter<typeof createUser>; // string
+  type TCreateUserFirstArg = FirstParameter<typeof createUser>; // string
 }
 exercise46();
 
@@ -303,7 +322,10 @@ function exerciseExtra1() {
   // TODO: create a function to determine if two strings are an anagram
   // HINT: A word is an anagram of another if you can rearrange its characters to produce the second word.
   function areAnagrams(s1: string, s2: string): boolean {
-    return false;
+    const cleanS1 = s1.replace(/\s/g, '').toLowerCase();
+    const cleanS2 = s2.replace(/\s/g, '').toLowerCase();
+
+    return cleanS1.split('').sort().join('') === cleanS2.split('').sort().join('');
   }
 
   console.assert(areAnagrams("listen", "silent") === true);

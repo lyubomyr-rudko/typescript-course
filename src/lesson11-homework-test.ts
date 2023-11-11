@@ -38,18 +38,19 @@ describe("Users class", () => {
       expect(users.getUsersNames()).to.deep.equal(["Bob, Smith", "Jack, Chan"]);
     });
 
-    xit("should work for blank data", () => {
+    it("should work for blank data", () => {
       const users = new Users([]);
 
       // - Виправити getUsersNames так, що цей юніт-тест проходив
       expect(users.getUsersNames()).to.deep.equal([]);
     });
 
-    xit("should work for real data", () => {
+    it("should work for real data", () => {
       const users = new Users(data.users);
+      const realData = data.users.map(user => `${user.firstName}, ${user.lastName}`);
 
       // - Дописати цей юніт-тест, так щоб використовувалися data.users
-      expect(users.getUsersNames()).to.deep.equal(["Terry, Medhurst", "..."]);
+      expect(users.getUsersNames()).to.deep.equal(realData);
     });
   });
 
@@ -80,14 +81,12 @@ describe("Users class", () => {
 
       const users = new Users(mockData);
 
-      users.updateUsersAge();
-
-      const usersAges = users.list.map((user) => user.age);
+      const usersAges = users.updateUsersAge().map((user) => user.age);
 
       expect(usersAges).to.deep.equal([20, 30]);
     });
 
-    xit("should work for blank data", () => {
+    it("should work for blank data", () => {
       const users = new Users([]);
 
       users.updateUsersAge();
@@ -98,16 +97,24 @@ describe("Users class", () => {
       expect(usersAges).to.deep.equal([]);
     });
 
-    xit("should work for real data", () => {
+    it("should work for real data", () => {
       const users = new Users(data.users);
 
-      users.updateUsersAge();
-
-      const usersAges = users.list.map((user) => user.age);
+      const usersAges = users.updateUsersAge().map((user) => user.age);
 
       // - Виправити updateUsersAge так, що цей юніт-тест проходив
       // - Дописати цей юніт-тест, так щоб використовувалися data.users - замінити 1, 2, 3 на правильні дані
-      expect(usersAges).to.deep.equal([1, 2, 3]);
+      const realData = data.users.map((user: UUser) => {
+        const usersCopy = { ...user }
+        if (usersCopy.birthDate && usersCopy.age) {
+          let userBirthDate = new Date(usersCopy.birthDate)
+          let currentDate = new Date()
+      
+          usersCopy.age = currentDate.getFullYear() - userBirthDate.getFullYear()
+        }
+        return usersCopy
+      }).map((user)=>user.age)
+      expect(usersAges).to.deep.equal(realData);
     });
   });
 
@@ -153,7 +160,7 @@ describe("Users class", () => {
       });
     });
 
-    xit("should work for real data", () => {
+    it("should work for real data", () => {
       const users = new Users(data.users);
 
       const usersNamesAndPhones = users
@@ -223,9 +230,101 @@ describe("Users class", () => {
       // - Виправити метод getUsersFromUkraine так, щоб цей юніт-тест проходив
       // - Дописати цей юніт-тест, так щоб використовувалися data.users - замінити XXX на правильні дані
       expect(users.getStatePostalCodes()).to.deep.equal([
-        { name: "XXX", postalCodes: ["XXX", "XXX"] },
-        { name: "XXX", postalCodes: ["XXX", "XXX"] },
-        // ... Це місце де має бути ваш код
+         {
+            "name": "DC",
+            "postalCodes": [
+                "20020",
+                "20001"
+            ]
+        },
+        {
+            "name": "KY",
+            "postalCodes": [
+                "40219",
+                "40206",
+                "40208"
+            ]
+        },
+        {
+            "name": "CA",
+            "postalCodes": [
+                "95945",
+                "94591",
+                "93908",
+                "93645"
+            ]
+        },
+        {
+            "name": "CT",
+            "postalCodes": [
+                "06040",
+                "06040",
+                "06042"
+            ]
+        },
+        {
+            "name": "VT",
+            "postalCodes": [
+                "05452",
+                "05037"
+            ]
+        },
+        {
+            "name": "AZ",
+            "postalCodes": [
+                "85306",
+                "85305"
+            ]
+        },
+        {
+            "name": "TN",
+            "postalCodes": [
+                "37209",
+                "37206",
+                "37076",
+                "37211",
+                "37013"
+            ]
+        },
+        {
+            "name": "CO",
+            "postalCodes": [
+                "80003"
+            ]
+        },
+        {
+            "name": "MA",
+            "postalCodes": [
+                "02664"
+            ]
+        },
+        {
+            "name": "AR",
+            "postalCodes": [
+                "72704",
+                "72704",
+                "72703"
+            ]
+        },
+        {
+            "name": "AL",
+            "postalCodes": [
+                "36108",
+                "36111"
+            ]
+        },
+        {
+            "name": "GA",
+            "postalCodes": [
+                "31415"
+            ]
+        },
+        {
+            "name": "AK",
+            "postalCodes": [
+                "99503"
+            ]
+        }
       ]);
     });
   });
@@ -233,22 +332,73 @@ describe("Users class", () => {
   describe("getAverageWomenAge method", () => {
     // - Написати функцію що повератє середній вік всіх жінок ("gender": "female")
 
-    xit("should be defined", () => {
+    it("should be defined", () => {
       const users = new Users(data.users);
-
-      // expect(users.getMediumWomenAge).to.not.be.undefined;
+      users.getAverageWomenAge()
+      expect(users.getAverageWomenAge()).to.not.be.undefined;
     });
 
-    xit("should work for real data", () => {
+    it("should work for real data", () => {
       const users = new Users(data.users);
 
       // - Виправити метод getUsersFromUkraine так, щоб цей юніт-тест проходив
       // - Дописати цей юніт-тест, так щоб використовувалися data.users - замінити 12345 на правильні дані
-      // expect(users.getMediumWomenAge()).to.deep.equal(12345);
+      expect(users.getAverageWomenAge()).to.deep.equal(36);
     });
   });
 
   // Написати юніт-тести для наступних методів
   // getMostCommonWoomanHairColor - метод що повератє найбільш поширений колір волося серед жінок
+  describe("getMostCommonWomanHairColor method", () => {
+    it("should be defined", () => {
+      const users = new Users(data.users);
+      expect(users.getMostCommonWomanHairColor).to.not.be.undefined;
+    });
+
+    it("should return the most common hair color among women", () => {
+      const mockData = [
+        { firstName: "", gender: "female", hair: { color: "Brown", type: "Long"} },
+        { firstName: "", gender: "female", hair: { color: "Blond", type: "Long"} },
+        { firstName: "", gender: "female", hair: { color: "Brown", type: "Long"} },
+        { firstName: "", gender: "female", hair: { color: "Black", type: "Long"} },
+        { firstName: "", gender: "female", hair: { color: "Brown", type: "Long"} },
+      ];
+
+      const users = new Users(mockData);
+
+      expect(users.getMostCommonWomanHairColor()).to.equal("Brown");
+    });
+
+    it("should work with real data", ()=>{
+      const users = new Users(data.users)
+      expect(users.getMostCommonWomanHairColor()).to.deep.equal("Black");
+    })
+  });
+
   // getMostCommonManBlodType - метод що повератє найбільш поширениу групу крові серед чоловіків
+  describe("getMostCommonManBloodType method", () => {
+    it("should be defined", () => {
+      const users = new Users(data.users);
+      expect(users.getMostCommonManBloodType).to.not.be.undefined;
+    });
+
+    it("should return the most common blood type among men", () => {
+      const mockData = [
+        {firstName:"", bloodGroup:"A+", gender:"female"},
+        {firstName:"", bloodGroup:"A-",   gender:"male"},
+        {firstName:"", bloodGroup:"O+", gender:"female"},
+        {firstName:"", bloodGroup:"A+",   gender:"male"},
+        {firstName:"", bloodGroup:"A+",   gender:"male"}
+      ] 
+
+      const users = new Users(mockData);
+
+      expect(users.getMostCommonManBloodType()).to.equal("A+");
+
+      it("should work with real data", ()=>{
+        const users = new Users(data.users)
+        expect(users.getMostCommonManBloodType()).to.deep.equal("A-");
+      })
+    });
+  });
 });

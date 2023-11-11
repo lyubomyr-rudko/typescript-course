@@ -3,6 +3,20 @@ function exercise52() {
   // TODO: write a utility type that for given object type T
   // will create a new type with all properties plus methods to get and set properties
   // plus methods to validate earch of the property
+  type TGetters<T> = {
+    [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
+  };
+
+  type TSetters<T> = {
+    [K in keyof T as `set${Capitalize<string & K>}`]: (value: T[K]) => void;
+  };
+
+  type TValidators<T> = {
+    [K in keyof T as `validate${Capitalize<string & K>}`]: () => boolean;
+  };
+
+  type TGettersSettersValidators<T> = TGetters<T> & TSetters<T> & TValidators<T>;
+
   type TObjectWitName = {
     name: string;
   };
@@ -15,13 +29,13 @@ function exercise52() {
   };
 
   // TODO: generate this type from TGettersSettersValidators using utility type
-  // type TObjectMethods = TGettersSettersValidators<typeof obj>;
+  type TObjectMethods = TGettersSettersValidators<typeof obj>;
   // TODO: remvoe this declaration below and replac it with the one above
-  type TObjectMethods = {
-    getName(): string;
-    setName(name: string): void;
-    validateName(): boolean;
-  };
+  // type TObjectMethods = {
+  //   getName(): string;
+  //   setName(name: string): void;
+  //   validateName(): boolean;
+  // };
 
   const object: TObjectWitName & TObjectMethods = {
     name: "point",
@@ -44,30 +58,48 @@ exercise52();
 function exercise53() {
   // TODO: declare enum Color with values Red, Green, Blue
   // TODO: assing Red: 1, Green: 2, Blue: 4
-  // enum Color {}
+  enum Color {
+    Red = 1,
+    Green = 2,
+    Blue = 4,
+  }
 
   // TODO: declare a function that takes a color as a number and returns a string
   // TODO: use bitmask bitwise AND operator to check if color has Red, Green, Blue
   function getColor(color: number): string {
     let result = "";
     // TODO: check if red bit is set by bitwise & operator, if so - add "Red" to result
+    if ((color & Color.Red) === Color.Red) {
+      result += "Red";
+    }
     // TODO: check if green bit is set by bitwise & operator, if so - add "Green" to result
+    if ((color & Color.Green) === Color.Green) {
+      if (result) {
+        result += ", "; 
+      }
+      result += "Green";
+    }
     // TODO: check if blue bit is set by bitwise & operator, if so - add "Blue" to result
-
+    if ((color & Color.Blue) === Color.Blue) {
+      if (result) {
+        result += ", ";
+      }
+      result += "Blue";
+    }
     // TODO: explain how bitmask works
 
     return result;
   }
 
   // TODO: add test assertionsns using this table
-  // getColor(0) === """ (empty string, no color), bitmask ( 0 0 0 )
-  // getColor(1) === "Red" // bitmask ( 0 0 1 )
-  // getColor(2) === "Green // bitmask ( 0 1 0 )
-  // getColor(3) === "Green, Blue" // bitmask ( 0 1 1 )
-  // getColor(4) === "Blue" bitmask ( 1 0 0 )
-  // getColor(5) === "Red, Blue" // bitmask ( 1 0 1 )
-  // getColor(6) === "Red, Green" // bitmask   ( 1 1 0 )
-  // getColor(7) === "Red, Green, Blue" // bitmask ( 1 1 1 )
+  getColor(0) === "" //(empty string, no color), bitmask ( 0 0 0 )
+  getColor(1) === "Red" // bitmask ( 0 0 1 )
+  getColor(2) === "Green" // bitmask ( 0 1 0 )
+  getColor(3) === "Green, Blue" // bitmask ( 0 1 1 )
+  getColor(4) === "Blue" // bitmask ( 1 0 0 )
+  getColor(5) === "Red, Blue" // bitmask ( 1 0 1 )
+  getColor(6) === "Red, Green" // bitmask   ( 1 1 0 )
+  getColor(7) === "Red, Green, Blue" // bitmask ( 1 1 1 )
 }
 exercise53();
 

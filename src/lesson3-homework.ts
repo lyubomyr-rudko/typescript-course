@@ -1,12 +1,35 @@
 // try different target compiler options
 function excercise10() {
   // TODO: declare a Rectangle class, with width and height properties
-  // TODO: add a constructor which takes width and height as parameters
+  class Rectangle{
+    #width:number;
+    #height:number;
+      // TODO: add a constructor which takes width and height as parameters
+      constructor(height:number, width:number){
+        this.#height=height;
+        this.#width=width
+      }
+      
   // TODO: add a method `getArea` which returns the area of the rectangle
+  getArea(){
+    return this.#height*this.#width
+  }
   // TODO: add a method `getPerimeter` which returns the perimeter of the rectangle
+
+  getPerimeter(){
+    return 2 * (this.#width + this.#height);
+  }
+  }
+ 
   // TODO: create an instance of the Rectangle class, with width 10 and height 20
+
+  const myRectangle=new Rectangle(10,20)
   // TODO: call the method `getArea` and print the result to console
+  const area=myRectangle.getArea();
+  console.log(area);
   // TODO: call the method `getPerimeter` and print the result to console
+  const perimeter=myRectangle.getPerimeter();
+  console.log(perimeter)
   // TODO: compile and run the code
   // TODO: change compiler target to ES5, complile and see the compiled code
   // TODO: change width and height properties to private, recomplile and
@@ -19,28 +42,107 @@ function excercise10() {
 excercise10();
 
 // create a generic Stack class (Stack is a FILO data structure, push and pop methods are used to add and remove items from the top of the stack)
+
 function excercise11() {
   // TODO: create a generic Stack class
   // TODO: add a private data property of type array of T
   // TODO: add a push method which takes an item of type T as a parameter and adds it to the top of the stack
   // TODO: add a pop method which removes and returns the item from the top of the stack
+  class Stack<T> {
+    private data: T[] = [];
+    push(item: T) {
+      this.data.push(item);
+    }
+    pop(): T | undefined {
+      return this.data.shift();
+    }
+  }
   // TODO: create an instance of the Stack class with number type
+  const myStack= new Stack<number>();
   // TODO: push two numbers to the stack
+  myStack.push(2);
+  myStack.push(10)
   // TODO: pop an item from the stack and print it to console, calling toFixed method on it
+  const myNumber=myStack.pop()
+  console.log(myNumber?.toFixed(2))
   // TODO: create an instance of the Stack class with string type
+  const myString= new Stack<string>()
   // TODO: push two strings to the stack
+  myString.push('toto');
+  myString.push('tata');
   // TODO: pop an item from the stack and print it to console, calling toUpperCase method on it
+  const result=myString.pop()
+  console.log(result?.toUpperCase())
 }
 // TODO: compile and run the code
 excercise11();
 
 // create a generic function which takes an array of items of type T and returns the random item from the array
 function excercise12() {
-  // TODO: create a function that takes an array of numbers and returns a random number from the array
-  // TODO: create a function that takes an array of strings and returns a random string from the array
+
+   // TODO: create a function that takes an array of numbers and returns a random number from the array
+  function findNumber( numbers: number[]):number{
+    if (numbers.length === 0) {
+      throw new Error("There ere no items");
+    }
+    
+      const randomIndex = Math.floor(Math.random() * numbers.length);
+      const result= numbers [randomIndex];
+   
+    return result
+
+  }
+   // TODO: create a function that takes an array of strings and returns a random string from the array
+   function findString( strings: string[]):string{
+    if (strings.length === 0) {
+      throw new Error("There ere no items");
+    }
+    
+      const randomIndex = Math.floor(Math.random() * strings.length);
+      const result= strings [randomIndex];
+   
+    return result
+
+  }
   // TODO: create a function that takes an array of objects and returns a random object from the array
-  // TODO: observe the same structure of the functions above, and create a generic function which takes an array of items of type T and returns the random item from the array
+  function findObject<T>(objects: T[]): T {
+    if (objects.length === 0) {
+      throw new Error("Array is empty");
+    }
+    const randomIndex = Math.floor(Math.random() * objects.length);
+    return objects[randomIndex];
+  }
+ 
+  function findRandomItem<T>(items: T[]):T{
+    if (items.length === 0) {
+      throw new Error("There ere no items");
+    }
+    
+      const randomIndex = Math.floor(Math.random() * items.length);
+      const result= items [randomIndex];
+   
+    return result
+  }
+ 
+  const numbers = [1, 2, 3, 4, 5];
+  const randomNumber = findRandomItem(numbers);
+  console.log("Random Number:", randomNumber);
+
+  const strings = ["cat", "banana", "car", "phone"];
+  const randomString = findRandomItem(strings);
+  console.log("Random String:", randomString);
+
+  const objects = [
+    { name: "Karina", age: 30 },
+    { name: "Anna", age: 45 },
+    { name: "Aleksandra", age: 35 },
+  ];
+  const randomObject = findRandomItem(objects);
+  console.log("Random Object:", randomObject);
 }
+  
+  // TODO: observe the same structure of the functions above, and create a generic function which takes an array of items of type T and returns the random item from the array
+
 // TODO: compile and run the code
 excercise12();
 
@@ -51,9 +153,9 @@ function excercise13() {
     const responseText = '{"name": "John", "age": 18}';
     return JSON.parse(responseText).age;
   }
-  const userAge = fetchUserAge();
+  const userAge = fetchUserAge() as number;
   // TODO: uncomment the following code and add type assertion to fix the error
-  // console.log(userAge + 1);
+   console.log(userAge + 1);
 }
 // TODO: compile and run the code
 excercise13();
@@ -66,12 +168,12 @@ function excercise14() {
 
     return JSON.parse(responseText).age;
   }
-  const userAge = fetchUserAge();
+  const userAge = fetchUserAge() as {name:string; age:number};
   // TODO: run the code below and observe the result, explain why it is happening,
   // TODO: add type casting to the function above, to fix the error
-  if (userAge === 16) {
+  if (userAge.age === 16) {
     console.log("Time to get your driver license");
-  } else if (userAge > 16) {
+  } else if (userAge.age > 16) {
     console.log("You are old enough to drive");
   } else {
     console.log("You are not old enough to drive");
@@ -84,20 +186,24 @@ excercise14();
 function excercise15() {
   // TODO: declare a type for user object, which has a name property of type string
 
+  type User={
+    name:string;
+  }
+
   // TODO: fix the fetchUsers function to return an array of users, not any type
-  function fetchUsers() {
+  function fetchUsers() : User[]{
     // TODO: add type safety to the data variable, annotate it with the type of users
-    const data: unknown = JSON.parse(
+    const data: {users: User[]} = JSON.parse(
       '{"users": [{"name": "John"}, {"name": "Jane"}]}'
     );
 
     // TODO: add check for the data type to contain list of users
-    return data;
+    return data.users;
   }
   // TODO: fix typings of the users variable (currently it is of type any)
-  const users = fetchUsers();
+  const users: User[] = fetchUsers();
   // TODO: add type safety to the code to print the names of the users to console
-  // users.forEach((user) => console.log(user.name));
+   users.forEach((user) => console.log(user.name));
 }
 // TODO: compile and run the code
 excercise15();

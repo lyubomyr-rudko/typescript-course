@@ -1,10 +1,28 @@
 // add readonly modifier to prevent props reassignment
 function exercise17() {
   // TODO: define class Student with properties name, age, studentId
+  class Student{
+    name:string;
+    age:number;
+    readonly studentId:number;
+  
   // TODO: add constructor to initialize the properties
-  // TODO: add method printStudent to print the student info to console
+    constructor(name:string, age:number, studentId:number){
+      this.name=name;
+      this.age=age;
+      this.studentId=studentId
+    }
+    // TODO: add method printStudent to print the student info to console
+   public printStudent(){
+    console.log(this.name,this.age,this.studentId)
+   }
+   
+  }
   // TODO: create an instance of the class Student
+  const myStudent = new Student("Karina", 31,123345);
   // TODO: print the student info to console
+  myStudent.printStudent()
+  //myStudent.studentId=15648
   // TODO: try to change the studentId property
   // TODO: change the studentId property to readonly, make sure that changing the property is not allowed
 }
@@ -17,37 +35,39 @@ function exercise18() {
     name: string;
     width: number;
     height: number;
-    color: string;
-    os: string;
+    color?: string;
+    os?: string;
     space: number;
   };
 
   // TODO: uncomment the code below and update the type definition to fix compile time error
 
-  // const widgetWithSize: TWidget = {
-  //   name: 'widget',
-  //   width: 10,
-  //   height: 20,
-  //   color: 'red',
-  //   space: 100,
-  // }
+   const widgetWithSize: TWidget = {
+     name: 'widget',
+     width: 10,
+     height: 20,
+     color: 'red',
+     space: 100,
+   }
 
-  // const desktopWidget:TWidget = {
-  //   name: 'widget',
-  //   width: 10,
-  //   height: 20,
-  //   os: 'windows',
-  //   space: 100,
-  // }
+   const desktopWidget:TWidget = {
+   name: 'widget',
+   width: 10,
+   height: 20,
+   os: 'windows',
+   space: 100,
+   }
 
   // TODO: print the result to console
+  console.log(widgetWithSize);
+  console.log(desktopWidget);
 }
 // TODO: compile and run the code
 exercise18();
 
 // use uniton types to replace unknown type for compile time type checking
 function exercise19() {
-  function formatCommandLine(command: unknown) {
+  function formatCommandLine(command: string| string[]|boolean) {
     if (typeof command === "string") {
       return command.trim();
     } else if (Array.isArray(command)) {
@@ -67,7 +87,9 @@ exercise19();
 function exercise20() {
   // TODO: define rock, paper, scissors literal type and assign it to TMove type
   // TODO: add type check to the function below
-  function rockPaperSizorsVins(me: unknown, other: unknown) {
+
+  type TMove="rock"|"paper"|"scissors"
+  function rockPaperSizorsVins(me:TMove , other:TMove):boolean {
     if (me === "rock" && other === "paper") {
       return false;
     }
@@ -98,45 +120,37 @@ function exercise21() {
   };
 
   type TWidgetWithSize = {
-    name: string;
     width: number;
     height: number;
     color: string;
   };
 
   type TDesktopWidget = {
-    name: string;
-    width: number;
-    height: number;
-    color: string;
+  
     os: string;
   };
 
   type TMobileWidget = {
-    name: string;
-    width: number;
-    height: number;
-    color: string;
     space: number;
   };
 
   const widget: TWidget = {
     name: "widget",
   };
-  const widgetWithSize: TWidgetWithSize = {
+  const widgetWithSize: TWidgetWithSize & TWidget= {
     name: "widget",
     width: 10,
     height: 20,
     color: "red",
   };
-  const desktopWidget: TDesktopWidget = {
+  const desktopWidget: TDesktopWidget &TWidget & TWidgetWithSize = {
     name: "widget",
     width: 10,
     height: 20,
     color: "red",
     os: "windows",
   };
-  const mobileWidget: TMobileWidget = {
+  const mobileWidget: TMobileWidget & TWidget & TWidgetWithSize= {
     name: "widget",
     width: 10,
     height: 20,
@@ -182,22 +196,17 @@ exercise21();
 
 // rewrite the code using async await
 function exercise22() {
-  function printMessagesWithTimeout() {
-    setTimeout(() => {
-      console.log("1");
-
-      setTimeout(() => {
-        console.log("2");
-      }, 1000);
-
-      setTimeout(() => {
-        console.log("3");
-
-        setTimeout(() => {
-          console.log("4");
-        }, 1000);
-      }, 1000);
-    }, 1000);
+  const later = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+   async function printMessagesWithTimeout() {
+    await later(1000);
+    console.log("1");
+    await later(1000);
+    console.log("2");
+    await later(1000);
+    console.log("3");
+    await later(1000);
+    console.log("4");
   }
   printMessagesWithTimeout();
 }
